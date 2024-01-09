@@ -6,7 +6,7 @@ export default function App() {
   const [itemText, setItemText] = React.useState("")
   function handlePress() {
     if (itemText != "") {
-      setItems(prevData => [...prevData, itemText])
+      setItems(prevData => [...prevData, { text: itemText, key: Math.random().toString() }])
       setItemText("")
     }
   }
@@ -34,12 +34,16 @@ export default function App() {
           renderItem={(itemData) => {
             return (
               <View style={styles.listItem}>
-                <Text style={styles.listItemText}>* {itemData.item}</Text>
+                <Text style={styles.listItemText}>* {itemData.item.text}</Text>
               </View>
             )
           }}
-          keyExtractor={(itemData) => itemData.index}
         />
+      </View>
+      <View style={{ marginTop: 12 }}>
+        <TouchableOpacity onPress={() => setItems([])} style={styles.button}>
+          <Text style={styles.buttonText}>RESET TODO LIST</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
