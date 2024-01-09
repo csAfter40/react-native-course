@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import ListItem from './components/ListItem';
 
 export default function App() {
   const [items, setItems] = React.useState([])
@@ -31,13 +32,7 @@ export default function App() {
         <Text style={styles.h3}>List of things to do:</Text>
         <FlatList
           data={items}
-          renderItem={(itemData) => {
-            return (
-              <View style={styles.listItem}>
-                <Text style={styles.listItemText}>* {itemData.item.text}</Text>
-              </View>
-            )
-          }}
+          renderItem={(itemData) => <ListItem item={itemData.item} />}
         />
       </View>
       <View style={{ marginTop: 12 }}>
@@ -88,15 +83,6 @@ const styles = StyleSheet.create({
     color: "#eee",
     fontSize: 20,
     marginBottom: 10
-  },
-  listItem: {
-    backgroundColor: "#EFEEF6",
-    borderRadius: 6,
-    padding: 8,
-    marginVertical: 4,
-  },
-  listItemText: {
-    color: "#6339CC",
   },
   button: {
     backgroundColor: "#14D3BA",
