@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import React from "react";
 
@@ -26,6 +27,10 @@ export default function InputModal({ addNewItem, showModal, setShowModal }) {
     >
       <View style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", flex: 1 }}>
         <View style={styles.modal}>
+          <Image
+            source={require("../assets/images/todo.jpg")}
+            style={styles.image}
+          />
           <View style={styles.inputLine}>
             <TextInput
               style={styles.textInput}
@@ -84,12 +89,17 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: "#EFEEF6",
-    height: 160,
+    height: 230,
     alignItems: "center",
     justifyContent: "space-around",
     marginHorizontal: 20,
     marginTop: 200,
     padding: 20,
     borderRadius: 12,
+  },
+  image: {
+    width: "100%",
+    height: 80,
+    borderRadius: 8,
   },
 });
