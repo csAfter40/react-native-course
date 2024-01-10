@@ -7,9 +7,28 @@ export default function App() {
   const [itemText, setItemText] = React.useState("")
   function handlePress() {
     if (itemText != "") {
-      setItems(prevData => [...prevData, { text: itemText, key: Math.random().toString() }])
-      setItemText("")
+      setItems((prevData) => [
+        ...prevData,
+        { text: itemText, key: Math.random().toString(), isDone: false },
+      ]);
+      setItemText("");
     }
+  }
+  function removeItem(key) {
+    setItems((prevData) => prevData.filter((item) => item.key != key));
+  }
+  function toggleMarkAsDone(key) {
+    setItems((prevData) => {
+      return prevData.map((item) => {
+        if (item.key === key) {
+          const newItem = { ...item };
+          newItem.isDone = !newItem.isDone;
+          return newItem;
+        } else {
+          return item;
+        }
+      });
+    });
   }
   return (
     <View style={styles.appContainer}>
@@ -19,9 +38,9 @@ export default function App() {
           <TextInput
             style={styles.textInput}
             value={itemText}
-            onChangeText={newText => setItemText(newText)}
-            placeholder='Enter text...'
-            placeholderTextColor='#eee'
+            onChangeText={(newText) => setItemText(newText)}
+            placeholder="Enter text..."
+            placeholderTextColor="#eee"
           />
           <TouchableOpacity onPress={handlePress} style={styles.button}>
             <Text style={styles.buttonText}>ADD ITEM</Text>
@@ -32,7 +51,13 @@ export default function App() {
         <Text style={styles.h3}>List of things to do:</Text>
         <FlatList
           data={items}
-          renderItem={(itemData) => <ListItem item={itemData.item} />}
+          renderItem={(itemData) => (
+            <ListItem
+              removeItem={() => removeItem(itemData.item.key)}
+              item={itemData.item}
+              toggleMarkAsDone={() => toggleMarkAsDone(itemData.item.key)}
+            />
+          )}
         />
       </View>
       <View style={{ marginTop: 12 }}>
