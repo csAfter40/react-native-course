@@ -4,18 +4,22 @@ import React from "react";
 export default function ListItem({ item, removeItem, toggleMarkAsDone }) {
   return (
     <View style={styles.container}>
-      <Pressable style={{ flex: 8 }} onPress={toggleMarkAsDone}>
-        <View style={styles.listItem}>
-          <Text style={styles.bullet}>{"\u2022 "}</Text>
-          <Text style={[styles.listItemText, item.isDone && styles.isDone]}>
-            {item.text}
-          </Text>
-        </View>
+      <Pressable
+        android_ripple={{ color: "#917cc9" }}
+        style={{ ...styles.listItem, flex: 8 }}
+        onPress={toggleMarkAsDone}
+      >
+        <Text style={styles.bullet}>{"\u2022 "}</Text>
+        <Text style={[styles.listItemText, item.isDone && styles.isDone]}>
+          {item.text}
+        </Text>
       </Pressable>
-      <Pressable style={{ flex: 1 }} onPress={removeItem}>
-        <View style={{ ...styles.listItem, justifyContent: "center" }}>
-          <Text style={styles.listItemText}>X</Text>
-        </View>
+      <Pressable
+        android_ripple={{ color: "#917cc9" }}
+        style={{ ...styles.listItem, justifyContent: "center", flex: 1 }}
+        onPress={removeItem}
+      >
+        <Text style={styles.listItemText}>X</Text>
       </Pressable>
     </View>
   );
