@@ -2,20 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import ListItem from './components/ListItem';
 import InputModal from "./components/InputModal";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [items, setItems] = React.useState([]);
-  const [itemText, setItemText] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
-  function handlePress() {
-    if (itemText != "") {
-      setItems((prevData) => [
-        ...prevData,
-        { text: itemText, key: Math.random().toString(), isDone: false },
-      ]);
-      setItemText("");
-    }
-  }
   function addNewItem(itemText) {
     if (itemText != "") {
       setItems((prevData) => [
@@ -41,39 +32,42 @@ export default function App() {
     });
   }
   return (
-    <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TouchableOpacity
-          onPress={() => setShowModal(true)}
-          style={{ ...styles.button, width: "100%" }}
-        >
-          <Text style={styles.buttonText}>ADD ITEMS TO YOUR TODO LIST</Text>
-        </TouchableOpacity>
-        <InputModal
-          showModal={showModal}
-          addNewItem={addNewItem}
-          setShowModal={setShowModal}
-        />
+    <>
+      <StatusBar style={"light"} />
+      <View style={styles.appContainer}>
+        <View style={styles.inputContainer}>
+          <TouchableOpacity
+            onPress={() => setShowModal(true)}
+            style={{ ...styles.button, width: "100%" }}
+          >
+            <Text style={styles.buttonText}>ADD ITEMS TO YOUR TODO LIST</Text>
+          </TouchableOpacity>
+          <InputModal
+            showModal={showModal}
+            addNewItem={addNewItem}
+            setShowModal={setShowModal}
+          />
+        </View>
+        <View style={styles.outputContainer}>
+          <Text style={styles.h3}>List of things to do:</Text>
+          <FlatList
+            data={items}
+            renderItem={(itemData) => (
+              <ListItem
+                removeItem={() => removeItem(itemData.item.key)}
+                item={itemData.item}
+                toggleMarkAsDone={() => toggleMarkAsDone(itemData.item.key)}
+              />
+            )}
+          />
+        </View>
+        <View style={{ marginTop: 12 }}>
+          <TouchableOpacity onPress={() => setItems([])} style={styles.button}>
+            <Text style={styles.buttonText}>RESET TODO LIST</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.outputContainer}>
-        <Text style={styles.h3}>List of things to do:</Text>
-        <FlatList
-          data={items}
-          renderItem={(itemData) => (
-            <ListItem
-              removeItem={() => removeItem(itemData.item.key)}
-              item={itemData.item}
-              toggleMarkAsDone={() => toggleMarkAsDone(itemData.item.key)}
-            />
-          )}
-        />
-      </View>
-      <View style={{ marginTop: 12 }}>
-        <TouchableOpacity onPress={() => setItems([])} style={styles.button}>
-          <Text style={styles.buttonText}>RESET TODO LIST</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </>
   );
 }
 
