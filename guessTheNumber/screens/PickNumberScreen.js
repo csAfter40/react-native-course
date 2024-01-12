@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import React from "react";
 import Button from "../components/Button";
 
@@ -27,7 +27,10 @@ export default function PickNumberScreen() {
     } else if (text === "") {
       blinkHeader();
     } else {
-      console.log("alert user");
+      Alert.alert("Invalid Number", "Please enter a number between 1 and 99.", [
+        { text: "Ok", style: "destructive" },
+      ]);
+      handleReset();
     }
   }
   function isValidInput() {
