@@ -33,8 +33,6 @@ export default function PickNumberScreen() {
           style={styles.input}
           onChangeText={setText}
           value={text}
-          // placeholder="Pick your number?"
-          // placeholderTextColor="white"
         />
         <View style={styles.buttonContainer}>
           <Button text="Reset" handlePress={handleReset} />
@@ -51,7 +49,6 @@ const styles = StyleSheet.create({
     paddingTop: 160,
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "#264653",
   },
   inputContainer: {
     padding: 20,
