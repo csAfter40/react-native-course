@@ -2,7 +2,7 @@ import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import React from "react";
 import Button from "../components/Button";
 
-export default function PickNumberScreen() {
+export default function PickNumberScreen({ handleNumberPick, setScreen }) {
   const [text, setText] = React.useState("");
   const [isVisible, setIsVisible] = React.useState(true);
 
@@ -23,7 +23,8 @@ export default function PickNumberScreen() {
   }
   function handleStart() {
     if (isValidInput()) {
-      console.log("start game");
+      handleNumberPick(parseInt(text));
+      setScreen("cpuGame");
     } else if (text === "") {
       blinkHeader();
     } else {
