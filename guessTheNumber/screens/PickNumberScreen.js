@@ -4,12 +4,28 @@ import Button from "../components/Button";
 
 export default function PickNumberScreen() {
   const [text, setText] = React.useState("");
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  function blinkHeader() {
+    let count = 0;
+    const interval = setInterval(() => {
+      if (count === 6) {
+        clearInterval(interval);
+      } else {
+        setIsVisible((prevValue) => !prevValue);
+        count++;
+      }
+    }, 100);
+  }
+
   function handleReset() {
     setText("");
   }
   function handleStart() {
     if (isValidInput()) {
       console.log("start game");
+    } else if (text === "") {
+      blinkHeader();
     } else {
       console.log("alert user");
     }
@@ -26,7 +42,9 @@ export default function PickNumberScreen() {
   return (
     <View style={styles.page}>
       <View style={styles.inputContainer}>
-        <Text style={styles.header}>Pick your number</Text>
+        <Text style={[styles.header, { opacity: isVisible ? 1 : 0 }]}>
+          Pick your number
+        </Text>
         <TextInput
           keyboardType="number-pad"
           maxLength={2}
