@@ -5,7 +5,11 @@ import Button from "../components/Button";
 export default function PickNumberScreen({ handleNumberPick, setScreen }) {
   const [text, setText] = React.useState("");
   const [isVisible, setIsVisible] = React.useState(true);
+  const inputRef = React.useRef(null);
 
+  React.useEffect(() => {
+    inputRef.current.focus();
+  }, []);
   function blinkHeader() {
     let count = 0;
     const interval = setInterval(() => {
@@ -34,6 +38,9 @@ export default function PickNumberScreen({ handleNumberPick, setScreen }) {
       handleReset();
     }
   }
+  function handleBack() {
+    setScreen("startGame");
+  }
   function isValidInput() {
     let num;
     try {
@@ -55,11 +62,25 @@ export default function PickNumberScreen({ handleNumberPick, setScreen }) {
           style={styles.input}
           onChangeText={setText}
           value={text}
+          ref={inputRef}
         />
         <View style={styles.buttonContainer}>
-          <Button text="Reset" handlePress={handleReset} />
-          <Button text="Start" handlePress={handleStart} />
+          <Button
+            text="Reset"
+            handlePress={handleReset}
+            style={styles.button}
+          />
+          <Button
+            text="Start"
+            handlePress={handleStart}
+            style={styles.button}
+          />
         </View>
+        <Button
+          text={"Back to main menu"}
+          handlePress={handleBack}
+          style={{ width: "100%" }}
+        />
       </View>
     </View>
   );
@@ -103,5 +124,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     color: "#fff",
+    paddingBottom: 12,
+  },
+  button: {
+    flex: 1,
   },
 });
