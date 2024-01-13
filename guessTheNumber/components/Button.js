@@ -1,15 +1,15 @@
 import { Text, StyleSheet, Pressable, View } from "react-native";
 import React from "react";
 
-export default function Button({ text, handlePress, color }) {
+export default function Button({ text, handlePress, style, textStyle }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Pressable
-        style={{ ...styles.button, backgroundColor: color }}
+        style={styles.button}
         onPress={handlePress}
         android_ripple={{ color: "#793a2b" }}
       >
-        <Text style={styles.text}>{text}</Text>
+        <Text style={[styles.text, textStyle]}>{text}</Text>
       </Pressable>
     </View>
   );
@@ -17,7 +17,6 @@ export default function Button({ text, handlePress, color }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     height: 40,
     borderRadius: 100,
     borderWidth: 1,
