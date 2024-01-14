@@ -1,6 +1,9 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { View, TextInput, StyleSheet, Alert } from "react-native";
 import React from "react";
 import Button from "../components/Button";
+import UIContainer from "../components/UIContainer";
+import Page from "../components/Page";
+import Header from "../components/Header";
 
 export default function PickNumberScreen({ handleNumberPick, setScreen }) {
   const [text, setText] = React.useState("");
@@ -51,11 +54,12 @@ export default function PickNumberScreen({ handleNumberPick, setScreen }) {
     return num > 0 && num < 100;
   }
   return (
-    <View style={styles.page}>
-      <View style={styles.inputContainer}>
-        <Text style={[styles.header, { opacity: isVisible ? 1 : 0 }]}>
-          Pick your number
-        </Text>
+    <Page>
+      <UIContainer>
+        <Header
+          text="Pick your number"
+          style={{ opacity: isVisible ? 1 : 0 }}
+        />
         <TextInput
           keyboardType="number-pad"
           maxLength={2}
@@ -81,29 +85,12 @@ export default function PickNumberScreen({ handleNumberPick, setScreen }) {
           handlePress={handleBack}
           style={{ width: "100%" }}
         />
-      </View>
-    </View>
+      </UIContainer>
+    </Page>
   );
 }
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    paddingTop: 160,
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  inputContainer: {
-    padding: 20,
-    paddingVertical: 30,
-    backgroundColor: "#E76F51",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    width: 300,
-    borderRadius: 8,
-    elevation: 6,
-  },
   buttonContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -120,11 +107,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontSize: 24,
-  },
-  header: {
-    fontSize: 24,
-    color: "#fff",
-    paddingBottom: 12,
   },
   button: {
     flex: 1,
