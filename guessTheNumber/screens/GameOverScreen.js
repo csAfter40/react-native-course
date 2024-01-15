@@ -15,19 +15,15 @@ export default function GameOverScreen({
     setScreen("startGame");
   }
   return (
-    <Page>
-      <UIContainer>
-        <Header text={`${player} found`} />
-        <Header text={pickedNumber} style={styles.bigText} />
-        <Header text={`in ${guessCount} guesses`} style={styles.smallText} />
-        <Button
-          text={"Restart Game"}
-          handlePress={handleRestart}
-          style={styles.button}
-        />
-      </UIContainer>
-    </Page>
-  );
+		<Page>
+			<UIContainer>
+				<Header>{`${player} found`}</Header>
+				<Header style={styles.bigText}>{pickedNumber}</Header>
+				<Header style={styles.smallText}>{`in ${guessCount} guesses`}</Header>
+				<Button text={"Restart Game"} handlePress={handleRestart} style={styles.button} />
+			</UIContainer>
+		</Page>
+	);
 }
 
 const styles = StyleSheet.create({
