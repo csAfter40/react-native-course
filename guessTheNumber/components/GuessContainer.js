@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { Colors } from "../utils";
 
 export default function GuessContainer({ text, style, textStyle }) {
   return (
@@ -20,6 +21,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    color: "#E76F51",
+    color: Colors.menuBg,
   },
 });
