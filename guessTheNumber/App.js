@@ -9,7 +9,9 @@ import GameOverScreen from "./screens/GameOverScreen";
 
 export default function App() {
   const [pickedNumber, setPickedNumber] = React.useState(null);
-  const [screen, setScreen] = React.useState("pickNumber");
+  const [screen, setScreen] = React.useState("startGame");
+  const [guessCount, setGuessCount] = React.useState(0);
+  const [player, setPlayer] = React.useState(null);
   function handleNumberPick(number) {
     setPickedNumber(number);
   }
@@ -25,18 +27,37 @@ export default function App() {
         resizeMode="cover"
       >
         {screen === "startGame" ? (
-          <StartGameScreen />
+          <StartGameScreen
+            setScreen={setScreen}
+            setPickedNumber={setPickedNumber}
+            setGuessCount={setGuessCount}
+            setPlayer={setPlayer}
+          />
         ) : screen === "pickNumber" ? (
           <PickNumberScreen
             handleNumberPick={handleNumberPick}
             setScreen={setScreen}
           />
         ) : screen === "cpuGame" ? (
-          <CpuGameScreen />
+          <CpuGameScreen
+            pickedNumber={pickedNumber}
+            guessCount={guessCount}
+            setGuessCount={setGuessCount}
+            setScreen={setScreen}
+          />
         ) : screen === "userGame" ? (
-          <UserGameScreen />
+          <UserGameScreen
+            pickedNumber={pickedNumber}
+            guessCount={guessCount}
+            setGuessCount={setGuessCount}
+          />
         ) : (
-          <GameOverScreen setScreen={setScreen} />
+          <GameOverScreen
+            setScreen={setScreen}
+            guessCount={guessCount}
+            pickedNumber={pickedNumber}
+            player={player}
+          />
         )}
       </ImageBackground>
     </LinearGradient>
