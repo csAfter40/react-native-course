@@ -11,16 +11,17 @@ export default function GuessContainer({ text, style, textStyle }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 1000,
-    alignItems: "flex-start",
-    paddingVertical: 8,
-    paddingHorizontal: 18,
-    justifyContent: "center",
-  },
-  text: {
-    color: Colors.menuBg,
-  },
+	container: {
+		width: "100%",
+		backgroundColor: "white",
+		borderRadius: 1000,
+		alignItems: "flex-start",
+		paddingVertical: 8,
+		paddingHorizontal: 18,
+		justifyContent: "center",
+	},
+	text: {
+		fontFamily: "inter-light",
+		color: Colors.menuBg,
+	},
 });

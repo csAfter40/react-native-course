@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	text: {
+		fontFamily: "inter-light",
 		color: Colors.primaryText,
 	},
 });

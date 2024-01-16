@@ -28,12 +28,10 @@ export default function CpuGameScreen({
 	}, [guessLimits]);
 	function handleGameWon() {
 		setScreen("gameOver");
-		console.log("Game Won");
 	}
 	function handleIncorrectGuess(newGuess) {
 		setGuess(newGuess);
 		appendNewGuess(newGuess);
-		console.log("Incorrect Guess");
 	}
 	function appendNewGuess(newGuess) {
 		setGuessList((prevValue) => [newGuess, ...prevValue]);
@@ -42,7 +40,6 @@ export default function CpuGameScreen({
 		Alert.alert("Invalid Feedback", `Your number was ${pickedNumber}`, [
 			{ text: "Ok", style: "destructive" },
 		]);
-		console.log("Incorrect Feedback");
 	}
 	function handleBigger() {
 		if (guess < pickedNumber) {
@@ -127,6 +124,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	guessText: {
+		fontFamily: "inter-regular",
 		color: Colors.primaryText,
 		fontSize: 34,
 	},

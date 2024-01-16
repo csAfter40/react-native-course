@@ -8,6 +8,7 @@ export default function Header({ children, style }) {
 
 const styles = StyleSheet.create({
 	header: {
+		fontFamily: "inter-regular",
 		fontSize: 24,
 		color: Colors.primaryText,
 		paddingBottom: 6,
