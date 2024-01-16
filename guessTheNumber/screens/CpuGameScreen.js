@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import GuessContainer from "../components/GuessContainer";
 import { getRandomNumberBetween, Colors } from "../utils";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function CpuGameScreen({
 	pickedNumber,
@@ -63,17 +64,45 @@ export default function CpuGameScreen({
 				<Header>Oponent's guess</Header>
 				<Text style={styles.guessText}>{guess || ""}</Text>
 				<View style={styles.buttonContainer}>
-					<Button text="Smaller" style={styles.button} handlePress={handleSmaller} />
-					<Button text="Bigger" style={styles.button} handlePress={handleBigger} />
+					<Button
+						text="Smaller"
+						style={styles.button}
+						handlePress={handleSmaller}
+						icon={
+							<Ionicons
+								name="arrow-down-circle"
+								size={20}
+								color={Colors.primaryText}
+								style={{ marginRight: 6 }}
+							/>
+						}
+					/>
+					<Button
+						text="Bigger"
+						style={styles.button}
+						handlePress={handleBigger}
+						icon={
+							<Ionicons
+								name="arrow-up-circle"
+								size={20}
+								color={Colors.primaryText}
+								style={{ marginRight: 6 }}
+							/>
+						}
+					/>
 				</View>
 				<View style={styles.guessesSection}>
 					<FlatList
 						data={guessList}
 						renderItem={({ item, index }) => (
-							<GuessContainer text={`Guess #${guessCount - index}: ${item}`} />
+							<GuessContainer
+								text={`Guess #${guessCount - index}: ${item}`}
+							/>
 						)}
 						keyExtractor={(item) => item}
-						ItemSeparatorComponent={() => <View style={styles.seperator}></View>}
+						ItemSeparatorComponent={() => (
+							<View style={styles.seperator}></View>
+						)}
 					/>
 				</View>
 			</UIContainer>
@@ -85,13 +114,14 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		gap: 12,
-		paddingVertical: 20,
+		paddingVertical: 10,
 	},
 	uiContainer: {
 		flex: 1,
 		marginBottom: 25,
 		justifyContent: "flex-start",
 		paddingBottom: 10,
+		gap: 0,
 	},
 	button: {
 		flex: 1,
