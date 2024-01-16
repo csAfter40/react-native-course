@@ -10,6 +10,6 @@ const styles = StyleSheet.create({
 	header: {
 		fontSize: 24,
 		color: Colors.primaryText,
-		paddingBottom: 12,
+		paddingBottom: 6,
 	},
 });
