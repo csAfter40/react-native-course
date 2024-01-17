@@ -62,9 +62,11 @@ export default function App() {
 					/>
 				) : screen === "userGame" ? (
 					<UserGameScreen
+						setPickedNumber={setPickedNumber}
 						pickedNumber={pickedNumber}
 						guessCount={guessCount}
 						setGuessCount={setGuessCount}
+						setScreen={setScreen}
 					/>
 				) : (
 					<GameOverScreen
