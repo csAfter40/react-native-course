@@ -2,23 +2,25 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Colors } from "../utils";
 
-export default function GuessContainer({ text, style, textStyle }) {
-  return (
-    <View style={[styles.container, style]}>
-      <Text style={[styles.text, textStyle]}>{text}</Text>
-    </View>
-  );
+export default function GuessContainer({ text, style, textStyle, icon }) {
+	return (
+		<View style={[styles.container, style]}>
+			{icon}
+			<Text style={[styles.text, textStyle]}>{text}</Text>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
+		flexDirection: "row",
 		width: "100%",
 		backgroundColor: "white",
 		borderRadius: 1000,
-		alignItems: "flex-start",
+		alignItems: "center",
 		paddingVertical: 8,
 		paddingHorizontal: 18,
-		justifyContent: "center",
+		justifyContent: "flex-start",
 	},
 	text: {
 		fontFamily: "inter-light",
