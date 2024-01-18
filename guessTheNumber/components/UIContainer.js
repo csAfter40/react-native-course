@@ -7,15 +7,16 @@ export default function UIContainer({ children, style }) {
 }
 
 const styles = StyleSheet.create({
-  uiContainer: {
-    padding: 20,
-    paddingVertical: 30,
-    backgroundColor: Colors.menuBg,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 15,
-    width: 300,
-    borderRadius: 8,
-    elevation: 6,
-  },
+	uiContainer: {
+		padding: 20,
+		paddingVertical: 30,
+		backgroundColor: Colors.menuBg,
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 15,
+		width: "100%",
+		maxWidth: 400,
+		borderRadius: 8,
+		elevation: 6,
+	},
 });
