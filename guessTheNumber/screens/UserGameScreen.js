@@ -1,4 +1,12 @@
-import { View, Text, FlatList, StyleSheet, TextInput, Alert } from "react-native";
+import {
+	View,
+	Text,
+	FlatList,
+	StyleSheet,
+	TextInput,
+	Alert,
+	useWindowDimensions,
+} from "react-native";
 import React from "react";
 import Page from "../components/Page";
 import UIContainer from "../components/UIContainer";
@@ -20,6 +28,25 @@ export default function UserGameScreen({
 	const [guessList, setGuessList] = React.useState([]);
 	const [guessedNumber, setGuessedNumber] = React.useState(null);
 	const inputRef = React.useRef(null);
+	const { width, height } = useWindowDimensions();
+	const isLandscape = width > height;
+	const responsiveStyles = StyleSheet.create({
+		uiContainer: {
+			flexDirection: isLandscape ? "row" : "column",
+			maxWidth: isLandscape ? "100%" : 400,
+			alignItems: isLandscape ? "flex-start" : "center",
+		},
+		inputContainer: {
+			flex: isLandscape ? 1 : 0,
+		},
+		guessesSection: {
+			borderTopWidth: isLandscape ? 0 : 1,
+			borderStartColor: isLandscape ? "white" : null,
+			borderStartWidth: isLandscape ? 1 : 0,
+			paddingHorizontal: isLandscape ? 10 : 0,
+			paddingVertical: isLandscape ? 0 : 20,
+		},
+	});
 
 	React.useEffect(() => {
 		const rndNumber = getRandomNumberBetween([1, 100]);
@@ -67,47 +94,58 @@ export default function UserGameScreen({
 	}
 	return (
 		<Page>
-			<UIContainer style={styles.uiContainer}>
-				<Header>Guess my number!</Header>
-				<TextInput
-					keyboardType="number-pad"
-					maxLength={2}
-					style={styles.input}
-					onChangeText={setText}
-					value={text}
-					ref={inputRef}
-				/>
-				<View style={styles.buttonContainer}>
-					<Button
-						text="Reset"
-						handlePress={handleReset}
-						style={styles.button}
+			<UIContainer style={[styles.uiContainer, responsiveStyles.uiContainer]}>
+				<View style={[styles.inputContainer, responsiveStyles.inputContainer]}>
+					<Header>Guess my number!</Header>
+					<TextInput
+						keyboardType="number-pad"
+						maxLength={2}
+						style={styles.input}
+						onChangeText={setText}
+						value={text}
+						ref={inputRef}
 					/>
-					<Button
-						text="Guess"
-						handlePress={handleGuess}
-						style={styles.button}
-					/>
-				</View>
-				{guessedNumber && (
-					<View style={styles.resultTextContainer}>
-						<Text style={styles.resultText}>
-							You guessed{" "}
-							<Text style={{ fontSize: 20, fontFamily: "inter-regular" }}>
-								{guessedNumber}
-							</Text>
-						</Text>
-						<Text style={styles.resultText}>
-							This is{" "}
-							<Text style={{ textDecorationLine: "underline" }}>
-								{guessedNumber < pickedNumber ? "smaller" : "bigger"}
-							</Text>{" "}
-							than my number.
-						</Text>
+					<View style={styles.buttonContainer}>
+						<Button
+							text="Reset"
+							handlePress={handleReset}
+							style={styles.button}
+						/>
+						<Button
+							text="Guess"
+							handlePress={handleGuess}
+							style={styles.button}
+						/>
 					</View>
-				)}
+					{guessedNumber && (
+						<View style={styles.resultTextContainer}>
+							<Text style={styles.resultText}>
+								You guessed{" "}
+								<Text
+									style={{ fontSize: 20, fontFamily: "inter-regular" }}
+								>
+									{guessedNumber}
+								</Text>
+							</Text>
+							<Text style={styles.resultText}>
+								This is{" "}
+								<Text style={{ textDecorationLine: "underline" }}>
+									{guessedNumber < pickedNumber ? "smaller" : "bigger"}
+								</Text>{" "}
+								than my number.
+							</Text>
+						</View>
+					)}
+				</View>
 
-				<View style={styles.guessesSection}>
+				<View style={[styles.guessesSection, responsiveStyles.guessesSection]}>
+					{isLandscape && (
+						<Header
+							style={{ textAlign: "center", marginTop: 0, fontSize: 15 }}
+						>
+							Your guesses:
+						</Header>
+					)}
 					<FlatList
 						data={guessList}
 						renderItem={({ item, index }) => (
@@ -139,6 +177,11 @@ export default function UserGameScreen({
 }
 
 const styles = StyleSheet.create({
+	inputContainer: {
+		width: "100%",
+		alignItems: "center",
+		justifyContent: "flex-start",
+	},
 	input: {
 		width: "100%",
 		padding: 8,
@@ -148,6 +191,7 @@ const styles = StyleSheet.create({
 		color: Colors.primaryText,
 		textAlign: "center",
 		fontSize: 24,
+		marginTop: 16,
 	},
 	buttonContainer: {
 		flexDirection: "row",
@@ -159,7 +203,6 @@ const styles = StyleSheet.create({
 		marginBottom: 25,
 		justifyContent: "flex-start",
 		paddingBottom: 10,
-		gap: 0,
 	},
 	button: {
 		flex: 1,

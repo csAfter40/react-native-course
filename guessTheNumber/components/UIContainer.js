@@ -1,9 +1,15 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, useWindowDimensions } from "react-native";
 import React from "react";
 import { Colors } from "../utils";
 
 export default function UIContainer({ children, style }) {
-  return <View style={[styles.uiContainer, style]}>{children}</View>;
+	const { width, height } = useWindowDimensions();
+	const isLandscape = height < width;
+	const responsiveStyle = {
+		marginTop: isLandscape ? 0 : 80,
+		flex: isLandscape ? 1 : 0,
+	};
+	return <View style={[styles.uiContainer, responsiveStyle, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -18,5 +24,6 @@ const styles = StyleSheet.create({
 		maxWidth: 400,
 		borderRadius: 8,
 		elevation: 6,
+		// marginTop: 0,
 	},
 });
