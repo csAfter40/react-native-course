@@ -161,11 +161,11 @@ export default function UserGameScreen({
 										size={20}
 										color={Colors.menuBg}
 										style={{ marginRight: 6 }}
+										key={index}
 									/>
 								}
 							/>
 						)}
-						keyExtractor={(item) => item}
 						ItemSeparatorComponent={() => (
 							<View style={styles.seperator}></View>
 						)}
