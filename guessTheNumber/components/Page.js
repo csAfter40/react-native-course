@@ -8,9 +8,8 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
 	page: {
 		flex: 1,
-		paddingTop: 120,
 		alignItems: "center",
 		gap: 12,
-		paddingHorizontal: deviceWidth > 380 ? 40 : 20,
+		padding: deviceWidth > 380 ? 40 : 20,
 	},
 });
