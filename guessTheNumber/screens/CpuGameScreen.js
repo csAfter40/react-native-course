@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	FlatList,
+	Alert,
+	useWindowDimensions,
+} from "react-native";
 import Page from "../components/Page";
 import UIContainer from "../components/UIContainer";
 import Header from "../components/Header";
@@ -17,6 +24,25 @@ export default function CpuGameScreen({
 	const [guess, setGuess] = React.useState(null);
 	const [guessLimits, setGuesLimits] = React.useState([1, 99]);
 	const [guessList, setGuessList] = React.useState([]);
+	const { width, height } = useWindowDimensions();
+	const isLandscape = width > height;
+	const responsiveStyles = StyleSheet.create({
+		uiContainer: {
+			flexDirection: isLandscape ? "row" : "column",
+			maxWidth: isLandscape ? "100%" : 400,
+			alignItems: isLandscape ? "flex-start" : "center",
+		},
+		inputContainer: {
+			flex: isLandscape ? 1 : 0,
+		},
+		guessesSection: {
+			borderTopWidth: isLandscape ? 0 : 1,
+			borderStartColor: isLandscape ? "white" : null,
+			borderStartWidth: isLandscape ? 1 : 0,
+			paddingHorizontal: isLandscape ? 10 : 0,
+			paddingVertical: isLandscape ? 0 : 20,
+		},
+	});
 	React.useEffect(() => {
 		const newGuess = getRandomNumberBetween(guessLimits);
 		setGuessCount((prevValue) => prevValue + 1);
@@ -57,38 +83,52 @@ export default function CpuGameScreen({
 	}
 	return (
 		<Page>
-			<UIContainer style={styles.uiContainer}>
-				<Header>Oponent's guess</Header>
-				<Text style={styles.guessText}>{guess || ""}</Text>
-				<View style={styles.buttonContainer}>
-					<Button
-						text="Smaller"
-						style={styles.button}
-						handlePress={handleSmaller}
-						icon={
-							<Ionicons
-								name="arrow-down-circle"
-								size={20}
-								color={Colors.primaryText}
-								style={{ marginRight: 6 }}
-							/>
-						}
-					/>
-					<Button
-						text="Bigger"
-						style={styles.button}
-						handlePress={handleBigger}
-						icon={
-							<Ionicons
-								name="arrow-up-circle"
-								size={20}
-								color={Colors.primaryText}
-								style={{ marginRight: 6 }}
-							/>
-						}
-					/>
+			<UIContainer style={[styles.uiContainer, responsiveStyles.uiContainer]}>
+				<View style={[styles.inputContainer, responsiveStyles.inputContainer]}>
+					<Header>Oponent's guess</Header>
+					<Text style={styles.guessText}>{guess || ""}</Text>
+					<View style={styles.buttonContainer}>
+						<Button
+							text="Smaller"
+							style={styles.button}
+							handlePress={handleSmaller}
+							icon={
+								<Ionicons
+									name="arrow-down-circle"
+									size={20}
+									color={Colors.primaryText}
+									style={{ marginRight: 6 }}
+								/>
+							}
+						/>
+						<Button
+							text="Bigger"
+							style={styles.button}
+							handlePress={handleBigger}
+							icon={
+								<Ionicons
+									name="arrow-up-circle"
+									size={20}
+									color={Colors.primaryText}
+									style={{ marginRight: 6 }}
+								/>
+							}
+						/>
+					</View>
 				</View>
-				<View style={styles.guessesSection}>
+				<View style={[styles.guessesSection, responsiveStyles.guessesSection]}>
+					{isLandscape && (
+						<Header
+							style={{
+								textAlign: "center",
+								marginTop: 0,
+								fontSize: 15,
+								marginBottom: 10,
+							}}
+						>
+							CPU guesses:
+						</Header>
+					)}
 					<FlatList
 						data={guessList}
 						renderItem={({ item, index }) => (
@@ -108,6 +148,11 @@ export default function CpuGameScreen({
 }
 
 const styles = StyleSheet.create({
+	inputContainer: {
+		width: "100%",
+		alignItems: "center",
+		justifyContent: "flex-start",
+	},
 	buttonContainer: {
 		flexDirection: "row",
 		gap: 12,
@@ -118,7 +163,7 @@ const styles = StyleSheet.create({
 		marginBottom: 25,
 		justifyContent: "flex-start",
 		paddingBottom: 10,
-		gap: 0,
+		gap: 10,
 	},
 	button: {
 		flex: 1,
