@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
 		elevation: 4,
 	},
 	cardText: {
-		color: "black",
+		color: "#222",
 		fontSize: 20,
+		fontFamily: "roboto-regular",
 	},
 });
