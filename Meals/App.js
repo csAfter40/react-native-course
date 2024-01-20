@@ -27,18 +27,45 @@ export default function App() {
 	}
 	return (
 		<>
-			<StatusBar style="light" />
+			<StatusBar style="auto" />
 			<NavigationContainer>
-				<Stack.Navigator>
-					<Stack.Screen name="MealsCategories" component={CategoriesScreen} />
-					<Stack.Screen name="MealsList" component={MealsList} />
-					<Stack.Screen name="MealDetail" component={MealDetail} />
+				<Stack.Navigator
+					// default options for all screens
+					screenOptions={{
+						headerTitleAlign: "center",
+						animation: "slide_from_right",
+					}}
+				>
+					<Stack.Screen
+						name="MealsCategories"
+						component={CategoriesScreen}
+						options={options.categories}
+					/>
+					<Stack.Screen
+						name="MealsList"
+						component={MealsList}
+						options={options.mealsList}
+					/>
+					<Stack.Screen
+						name="MealDetail"
+						component={MealDetail}
+						options={options.mealDetail}
+					/>
 				</Stack.Navigator>
 			</NavigationContainer>
 		</>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {},
-});
+const options = {
+	categories: { title: "All Categories" },
+	mealsList: ({ route }) => {
+		const categoryTitle = route.params.categoryTitle;
+		return {
+			title: categoryTitle || "Meals",
+		};
+	},
+	mealDetail: {
+		title: "Meal Detail",
+	},
+};
