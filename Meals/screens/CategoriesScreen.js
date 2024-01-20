@@ -3,15 +3,24 @@ import React from "react";
 import Page from "../components/Page";
 import { CATEGORIES } from "../data/dummy-data";
 import CategoryCard from "../components/CategoryCard";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CategoriesScreen() {
+	const navigation = useNavigation();
+	function handleCategorySelect(categoryId) {
+		navigation.navigate("MealsList", { categoryId: categoryId });
+	}
 	return (
 		<Page>
 			<View style={styles.categoriesContainer}>
 				<FlatList
 					data={CATEGORIES}
 					renderItem={({ item }) => (
-						<CategoryCard style={{ margin: 5 }} category={item} />
+						<CategoryCard
+							style={{ margin: 5 }}
+							category={item}
+							onCategorySelect={() => handleCategorySelect(item.id)}
+						/>
 					)}
 					keyExtractor={(item) => item.id}
 					horizontal={false}
