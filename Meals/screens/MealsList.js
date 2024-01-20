@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import Page from "../components/Page";
 import React from "react";
 import { MEALS } from "../data/dummy-data";
@@ -9,7 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 export default function MealsList() {
 	const route = useRoute();
 	const categoryId = route.params.categoryId;
-	const categoryMeals = MEALS.filter((meal) => meal.categoryIds.includes(categoryId));
+	const filteredMeals = categoryId
+		? MEALS.filter((meal) => meal.categoryIds.includes(categoryId))
+		: MEALS;
 	const navigation = useNavigation();
 	function handleMealSelect(mealId) {
 		navigation.navigate("MealDetail", { mealId: mealId });
@@ -17,7 +19,7 @@ export default function MealsList() {
 	return (
 		<Page>
 			<FlatList
-				data={categoryMeals}
+				data={filteredMeals}
 				renderItem={({ item }) => (
 					<MealCard
 						meal={item}
@@ -29,12 +31,3 @@ export default function MealsList() {
 		</Page>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "flex-start",
-		gap: 10,
-	},
-});

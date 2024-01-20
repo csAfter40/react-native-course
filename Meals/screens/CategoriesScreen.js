@@ -7,8 +7,11 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function CategoriesScreen() {
 	const navigation = useNavigation();
-	function handleCategorySelect(categoryId) {
-		navigation.navigate("MealsList", { categoryId: categoryId });
+	function handleCategorySelect(category) {
+		navigation.navigate("MealsList", {
+			categoryId: category.id,
+			categoryTitle: category.title,
+		});
 	}
 	return (
 		<Page>
@@ -19,7 +22,7 @@ export default function CategoriesScreen() {
 						<CategoryCard
 							style={{ margin: 5 }}
 							category={item}
-							onCategorySelect={() => handleCategorySelect(item.id)}
+							onCategorySelect={() => handleCategorySelect(item)}
 						/>
 					)}
 					keyExtractor={(item) => item.id}
