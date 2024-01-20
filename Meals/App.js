@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import MealsList from "./screens/MealsList";
+import MealDetail from "./screens/MealDetail";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -31,6 +32,7 @@ export default function App() {
 				<Stack.Navigator>
 					<Stack.Screen name="MealsCategories" component={CategoriesScreen} />
 					<Stack.Screen name="MealsList" component={MealsList} />
+					<Stack.Screen name="MealDetail" component={MealDetail} />
 				</Stack.Navigator>
 			</NavigationContainer>
 		</>
