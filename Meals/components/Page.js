@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
 	page: {
 		flex: 1,
 		padding: 20,
-		paddingTop: 40,
 		width: "100%",
 	},
 });
