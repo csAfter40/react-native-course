@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { DataProvider } from "./components/DataProvider";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,7 @@ export default function App() {
 		return null;
 	}
 	return (
-		<>
+		<DataProvider>
 			<StatusBar style="auto" />
 			<NavigationContainer>
 				<Stack.Navigator
@@ -53,7 +54,7 @@ export default function App() {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
-		</>
+		</DataProvider>
 	);
 }
 
