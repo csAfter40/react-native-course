@@ -1,16 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import CategoriesScreen from "./screens/CategoriesScreen";
-import MealsList from "./screens/MealsList";
-import MealDetail from "./screens/MealDetail";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DataProvider } from "./components/DataProvider";
+import CategoryStackNavigator from "./components/CategoryStackNavigator";
+import FavouriteStackNavigator from "./components/FavouriteStackNavigator";
+import Favourites from "./screens/Favourites";
+import { Ionicons } from "@expo/vector-icons";
 
-const Stack = createNativeStackNavigator();
+const BottomTabBar = createBottomTabNavigator();
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -30,43 +30,34 @@ export default function App() {
 		<DataProvider>
 			<StatusBar style="auto" />
 			<NavigationContainer>
-				<Stack.Navigator
-					// default options for all screens
-					screenOptions={{
-						headerTitleAlign: "center",
-						animation: "slide_from_right",
-					}}
-				>
-					<Stack.Screen
-						name="MealsCategories"
-						component={CategoriesScreen}
-						options={options.categories}
+				<BottomTabBar.Navigator screenOptions={{ headerShown: false }}>
+					<BottomTabBar.Screen
+						name="CategoryStackNavigator"
+						component={CategoryStackNavigator}
+						options={options.categoryStackOptions}
 					/>
-					<Stack.Screen
-						name="MealsList"
-						component={MealsList}
-						options={options.mealsList}
+					<BottomTabBar.Screen
+						name="FavouritesStackNavigator"
+						component={FavouriteStackNavigator}
+						options={options.favouriteStackOptions}
 					/>
-					<Stack.Screen
-						name="MealDetail"
-						component={MealDetail}
-						options={options.mealDetail}
-					/>
-				</Stack.Navigator>
+				</BottomTabBar.Navigator>
 			</NavigationContainer>
 		</DataProvider>
 	);
 }
 
 const options = {
-	categories: { title: "All Categories" },
-	mealsList: ({ route }) => {
-		const categoryTitle = route.params.categoryTitle;
-		return {
-			title: categoryTitle || "Meals",
-		};
+	categoryStackOptions: {
+		tabBarIcon: ({ color, size }) => (
+			<Ionicons name="apps-sharp" color={color} size={size} />
+		),
+		title: "Categories",
 	},
-	mealDetail: {
-		title: "Meal Detail",
+	favouriteStackOptions: {
+		tabBarIcon: ({ color, size }) => (
+			<Ionicons name="star" color={color} size={size} />
+		),
+		title: "Favourites",
 	},
 };
