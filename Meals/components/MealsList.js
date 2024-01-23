@@ -11,20 +11,16 @@ export default function MealsList({ meals }) {
 	}
 	return (
 		<Page>
-			{meals.length ? (
-				<FlatList
-					data={meals}
-					renderItem={({ item }) => (
-						<MealCard
-							meal={item}
-							onMealSelect={() => handleMealSelect(item.id)}
-						/>
-					)}
-					keyExtractor={(item) => item.id}
-				/>
-			) : (
-				<Text>No meals available here.</Text>
-			)}
+			<FlatList
+				data={meals}
+				renderItem={({ item }) => (
+					<MealCard
+						meal={item}
+						onMealSelect={() => handleMealSelect(item.id)}
+					/>
+				)}
+				keyExtractor={(item) => item.id}
+			/>
 		</Page>
 	);
 }
