@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function CategoriesScreen() {
 	const navigation = useNavigation();
 	function handleCategorySelect(category) {
-		navigation.navigate("MealsList", {
+		navigation.navigate("CategoryMeals", {
 			categoryId: category.id,
 			categoryTitle: category.title,
 		});

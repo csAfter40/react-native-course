@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealDetail from "../screens/MealDetail";
-import Favourites from "../screens/Favourites";
+import FavouriteMeals from "../screens/FavouriteMeals";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,9 +15,9 @@ export default function FavouriteStackNavigator() {
 			}}
 		>
 			<Stack.Screen
-				name="Favourites"
-				component={Favourites}
-				options={options.favourites}
+				name="FavouriteMeals"
+				component={FavouriteMeals}
+				options={options.favouriteMeals}
 			/>
 			<Stack.Screen
 				name="MealDetail"
@@ -29,7 +29,7 @@ export default function FavouriteStackNavigator() {
 }
 
 const options = {
-	favourites: { title: "My Favourites" },
+	favouriteMeals: { title: "My Favourites" },
 	mealDetail: {
 		title: "Meal Detail",
 	},

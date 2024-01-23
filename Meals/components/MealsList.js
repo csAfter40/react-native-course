@@ -1,30 +1,19 @@
 import { FlatList, Text } from "react-native";
 import Page from "../components/Page";
 import React from "react";
-import { MEALS } from "../data/dummy-data";
 import MealCard from "../components/MealCard";
 import { useNavigation } from "@react-navigation/native";
-import { DataContext } from "../components/DataProvider";
 
-export default function Favourites() {
-	const { favourites } = React.useContext(DataContext);
-	const [favouriteMeals, setFavouriteMeals] = React.useState([]);
-	React.useEffect(() => {
-		if (favourites.size) {
-			setFavouriteMeals(MEALS.filter((meal) => favourites.has(meal.id)));
-		} else {
-			setFavouriteMeals([]);
-		}
-	}, [favourites]);
+export default function MealsList({ meals }) {
 	const navigation = useNavigation();
 	function handleMealSelect(mealId) {
 		navigation.navigate("MealDetail", { mealId: mealId });
 	}
 	return (
 		<Page>
-			{favouriteMeals.length ? (
+			{meals.length ? (
 				<FlatList
-					data={favouriteMeals}
+					data={meals}
 					renderItem={({ item }) => (
 						<MealCard
 							meal={item}
@@ -34,7 +23,7 @@ export default function Favourites() {
 					keyExtractor={(item) => item.id}
 				/>
 			) : (
-				<Text>No favourite meals available</Text>
+				<Text>No meals available here.</Text>
 			)}
 		</Page>
 	);
