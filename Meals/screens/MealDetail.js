@@ -3,7 +3,7 @@ import React from "react";
 import { useRoute } from "@react-navigation/native";
 import { MEALS } from "../data/dummy-data";
 import Page from "../components/Page";
-import { DataContext } from "../components/DataProvider";
+import { DataContext } from "../store/context/DataProvider";
 import FavouriteStar from "../components/FavouriteStar";
 
 export default function MealDetail({ navigation }) {

@@ -4,10 +4,9 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { DataProvider } from "./components/DataProvider";
+import { DataProvider } from "./store/context/DataProvider";
 import CategoryStackNavigator from "./components/CategoryStackNavigator";
 import FavouriteStackNavigator from "./components/FavouriteStackNavigator";
-import Favourites from "./screens/Favourites";
 import { Ionicons } from "@expo/vector-icons";
 
 const BottomTabBar = createBottomTabNavigator();
