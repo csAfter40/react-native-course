@@ -2,15 +2,17 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { DataProvider } from "./context/DataProvider";
+import BottomTabNavigation from "./components/navigation/BottomTabNavigation";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
 	return (
 		<DataProvider>
 			<PaperProvider>
-				<StatusBar style="auto" />
-				<View style={styles.container}>
-					<Text>Open up App.js to start working on your app!</Text>
-				</View>
+				<NavigationContainer>
+					<StatusBar style="auto" />
+					<BottomTabNavigation />
+				</NavigationContainer>
 			</PaperProvider>
 		</DataProvider>
 	);
