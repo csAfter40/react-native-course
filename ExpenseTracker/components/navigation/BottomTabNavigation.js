@@ -2,6 +2,7 @@ import * as React from "react";
 import { BottomNavigation, Text } from "react-native-paper";
 import RecentExpensesScreen from "../../screens/RecentExpensesScreen";
 import AllExpensesScreen from "../../screens/AllExpensesScreen";
+import CategoryStackNavigator from "./CategoryStackNavigator";
 
 export default function BottomTabNavigation() {
 	const [index, setIndex] = React.useState(0);
@@ -18,11 +19,18 @@ export default function BottomTabNavigation() {
 			focusedIcon: "calendar-month",
 			unfocusedIcon: "calendar-month-outline",
 		},
+		{
+			key: "categories",
+			title: "Categories",
+			focusedIcon: "apps-box",
+			unfocusedIcon: "apps",
+		},
 	]);
 
 	const renderScene = BottomNavigation.SceneMap({
 		recent: RecentExpensesScreen,
 		all: AllExpensesScreen,
+		categories: CategoryStackNavigator,
 	});
 
 	return (
