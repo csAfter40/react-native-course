@@ -1,18 +1,25 @@
-import { Text } from "react-native";
 import React from "react";
-import Page from "../components/Page";
 import TopBar from "../components/TopBar";
+import { DataContext } from "../context/DataProvider";
+import ExpenseList from "../components/ExpensesList";
+import PageMessage from "../components/PageMessage";
 
 export default function RecentExpensesScreen() {
+	const { expenses } = React.useContext(DataContext);
+	const dateLimit = new Date();
+	dateLimit.setDate(dateLimit.getDate() - 7);
+	const latestExpenses = expenses.filter((expense) => expense.date > dateLimit);
 	function addNewExpense() {
 		console.log("plus button pressed");
 	}
 	return (
 		<>
 			<TopBar title={"Recent Expenses"} handlePressPlus={addNewExpense} />
-			<Page>
-				<Text>Recent Expenses Screen</Text>
-			</Page>
+			{latestExpenses.length ? (
+				<ExpenseList expenses={latestExpenses} />
+			) : (
+				<PageMessage message={"No expenses available in the last 7 days."} />
+			)}
 		</>
 	);
 }
