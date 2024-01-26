@@ -1,4 +1,5 @@
 import Category from "../models/category";
+import Expense from "../models/expense";
 
 export const CATEGORIES = [
 	new Category("c1", "Housing", "#f5428d", "home"),
@@ -12,4 +13,17 @@ export const CATEGORIES = [
 	new Category("c9", "Personal Care", "#ffc7ff", "face-woman-shimmer"),
 	new Category("c10", "Education", "#47fced", "school"),
 	new Category("c11", "Other", "#41d95d", "dots-horizontal-circle"),
+];
+
+export const TEST_EXPENSES = [
+	new Expense(
+		"e1",
+		"Carpet cleaner",
+		20.45,
+		"USD",
+		new Date(2024, 0, 25),
+		CATEGORIES[0]
+	),
+	new Expense("e2", "Medicine", 12.45, "USD", new Date(2024, 0, 24), CATEGORIES[5]),
+	new Expense("e3", "Hand creme", 2.15, "USD", new Date(2024, 0, 10), CATEGORIES[7]),
 ];
