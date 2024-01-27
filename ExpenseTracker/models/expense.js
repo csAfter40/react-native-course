@@ -1,6 +1,7 @@
 class Expense {
-	constructor(id, title, amount, currency, date, category) {
-		this.id = id;
+	static nextId = 1;
+	constructor(title, amount, currency, date, category) {
+		this.id = Expense.nextId++;
 		this.title = title;
 		this.amount = amount;
 		this.currency = currency;
