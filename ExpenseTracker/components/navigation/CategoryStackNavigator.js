@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoriesScreen from "../../screens/CategoriesScreen";
 import TopBar from "../TopBar";
 import CategoryExpenses from "../../screens/CategoryExpenses";
+import ExpenseDetailScreen from "../../screens/ExpenseDetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export default function CategoryStackNavigator() {
 				component={CategoryExpenses}
 				options={options.categoryExpenses}
 			/>
+			<Stack.Screen name="ExpenseDetail" component={ExpenseDetailScreen} />
 		</Stack.Navigator>
 	);
 }
