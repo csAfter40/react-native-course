@@ -15,15 +15,11 @@ export const CATEGORIES = [
 	new Category("c11", "Other", "#41d95d", "dots-horizontal-circle"),
 ];
 
+export const CURRENCIES = ["USD", "EUR", "GBP", "TRY"];
+
 export const TEST_EXPENSES = [
-	new Expense(
-		"e1",
-		"Carpet cleaner",
-		20.45,
-		"USD",
-		new Date(2024, 0, 25),
-		CATEGORIES[0]
-	),
-	new Expense("e2", "Medicine", 12.45, "USD", new Date(2024, 0, 24), CATEGORIES[5]),
-	new Expense("e3", "Hand creme", 2.15, "USD", new Date(2024, 0, 10), CATEGORIES[7]),
+	new Expense("Carpet cleaner", 20.45, "USD", new Date(2024, 0, 25), "c1"),
+	new Expense("Medicine", 12.45, "USD", new Date(2024, 0, 24), "c5"),
+	new Expense("Hand creme", 2.15, "USD", new Date(2024, 0, 10), "c9"),
 ];
+
