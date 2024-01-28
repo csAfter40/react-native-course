@@ -14,7 +14,7 @@ export default function CategoryStackNavigator() {
 			screenOptions={{
 				headerTitleAlign: "center",
 				animation: "slide_from_right",
-				header: (props) => <TopBar {...props} />,
+				header: (props) => <TopBar {...props} hasPlus={false} />,
 				contentStyle: { backgroundColor: null },
 			}}
 		>
@@ -37,8 +37,10 @@ const options = {
 	categories: { title: "Categories" },
 	categoryExpenses: ({ route }) => {
 		const categoryTitle = route.params.categoryTitle;
+		const categoryId = route.params.categoryId;
 		return {
 			title: categoryTitle || "Category Expenses",
+			header: (props) => <TopBar {...props} category={categoryId} />,
 		};
 	},
 };
