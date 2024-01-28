@@ -8,14 +8,14 @@ import { DatePickerInput } from "react-native-paper-dates";
 import { DataContext } from "../context/DataProvider";
 import { expenseFactory } from "../utils";
 
-export default function AddExpenseModal({ visible, hideModal }) {
+export default function AddExpenseModal({ visible, hideModal, category }) {
 	const { control, setFocus, handleSubmit, reset } = useForm({
 		defaultValues: {
 			title: "",
 			amount: "",
 			currency: "",
-			category: "",
-			date: "",
+			category: category || "",
+			date: new Date(),
 		},
 		mode: "onChange",
 	});
@@ -42,9 +42,7 @@ export default function AddExpenseModal({ visible, hideModal }) {
 				contentContainerStyle={styles.containerStyle}
 			>
 				<View style={{}}>
-					<Text style={{ fontSize: 20, marginBottom: 20, textAlign: "center" }}>
-						Add Expense
-					</Text>
+					<Text style={styles.header}>Add Expense</Text>
 					<FormBuilder
 						control={control}
 						setFocus={setFocus}
@@ -115,52 +113,34 @@ export default function AddExpenseModal({ visible, hideModal }) {
 							},
 						]}
 					/>
-					<View style={{ height: 55 }}>
+					<View style={styles.datePickerContainer}>
 						<Controller
 							control={control}
 							name="date"
 							render={({ field }) => (
 								<DatePickerInput
-									locale="tr"
+									locale="en"
 									label="Date"
 									value={field.value}
 									onChange={(date) => field.onChange(date)}
 									inputMode="start"
 									mode="outlined"
-									style={{ marginVertical: 20 }}
 								/>
-								// <DatePicker
-								// 	placeholderText="Select date"
-								// 	onChange={(date) => field.onChange(date)}
-								// 	selected={field.value}
-								// />
 							)}
 						/>
 					</View>
-					<View
-						style={{
-							flexDirection: "row",
-							justifyContent: "space-around",
-							alignItems: "center",
-							marginVertical: 20,
-							gap: 10,
-						}}
-					>
+					<View style={styles.buttonContainer}>
 						<Button
 							onPress={onCancel}
 							mode="contained-tonal"
-							style={{ flex: 1 }}
+							style={styles.button}
 						>
 							Cancel
 						</Button>
 						<Button
 							mode="contained"
-							style={{ flex: 1 }}
-							// onPress={handleSubmit((data) => {
-							// 	console.log("form data: ", data);
-							// })}
+							style={styles.button}
 							onPress={handleSubmit(onSubmit)}
-							// onPress={handlePressSubmit}
 						>
 							Submit
 						</Button>
@@ -171,9 +151,20 @@ export default function AddExpenseModal({ visible, hideModal }) {
 	);
 }
 const styles = StyleSheet.create({
-	containerStyle: { backgroundColor: "white", padding: 20, margin: 20 },
+	containerStyle: {
+		backgroundColor: "white",
+		padding: 20,
+		margin: 20,
+		borderRadius: 12,
+	},
+	header: { fontSize: 20, marginBottom: 20, textAlign: "center" },
+	datePickerContainer: { height: 55 },
+	buttonContainer: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+		alignItems: "center",
+		marginVertical: 20,
+		gap: 10,
+	},
+	button: { flex: 1 },
 });
-
-// Datepicker with react hook form
-// https://web-ridge.github.io/react-native-paper-dates/docs/date-picker/input-date-picker
-// https://stackoverflow.com/questions/60864610/is-it-possible-to-use-react-datepicker-with-react-hooks-forms
