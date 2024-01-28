@@ -8,7 +8,6 @@ import { CATEGORIES } from "../data/dummy-data";
 export default function CategoriesScreen() {
 	const navigation = useNavigation();
 	function handleCategorySelect(category) {
-		console.log(category.title);
 		navigation.navigate("CategoryExpenses", {
 			categoryId: category.id,
 			categoryTitle: category.title,

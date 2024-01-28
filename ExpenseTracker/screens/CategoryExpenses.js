@@ -12,7 +12,7 @@ export default function CategoryExpenses() {
 	const route = useRoute();
 	const categoryId = route.params.categoryId;
 	const filteredExpenses = categoryId
-		? expenses.filter((expense) => expense.category.id === categoryId)
+		? expenses.filter((expense) => expense.category === categoryId)
 		: expenses;
 	if (filteredExpenses.length === 0) {
 		return <PageMessage message={"No expenses available in this category."} />;

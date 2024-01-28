@@ -14,7 +14,7 @@ export default function RecentExpensesScreen() {
 	}
 	return (
 		<>
-			<TopBar title={"Recent Expenses"} handlePressPlus={addNewExpense} />
+			<TopBar title={"Recent Expenses"} />
 			{latestExpenses.length ? (
 				<ExpenseList expenses={latestExpenses} />
 			) : (

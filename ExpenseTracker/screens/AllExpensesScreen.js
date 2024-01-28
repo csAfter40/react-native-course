@@ -11,7 +11,7 @@ export default function AllExpensesScreen() {
 	}
 	return (
 		<>
-			<TopBar title={"All Expenses"} handlePressPlus={addNewExpense} />
+			<TopBar title={"All Expenses"} />
 			{expenses.length ? (
 				<ExpenseList expenses={expenses} />
 			) : (
