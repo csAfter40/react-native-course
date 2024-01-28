@@ -6,6 +6,7 @@ const SettingsContext = createContext();
 function SettingsProvider(props) {
 	const [darkMode, setDarkMode] = React.useState(true);
 	const [currentTheme, setCurrentTheme] = React.useState(MD3LightTheme);
+	const [userCurrency, setUserCurrency] = React.useState("USD");
 	React.useEffect(() => {
 		darkMode ? setCurrentTheme(MD3DarkTheme) : setCurrentTheme(MD3LightTheme);
 	}, [darkMode]);
@@ -26,6 +27,8 @@ function SettingsProvider(props) {
 				setDarkModeOff,
 				setDarkModeOn,
 				toggleDarkMode,
+				userCurrency,
+				setUserCurrency,
 			}}
 		>
 			{props.children}
