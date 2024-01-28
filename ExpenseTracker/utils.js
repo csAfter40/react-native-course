@@ -15,3 +15,7 @@ export function expenseFactory(data) {
 export function getCategory(categoryId) {
 	return CATEGORIES.find((category) => category.id === categoryId);
 }
+
+export function getExpense(expenseId, expenses) {
+	return expenses.find((expense) => expense.id === expenseId);
+}
