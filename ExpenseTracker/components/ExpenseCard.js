@@ -1,6 +1,6 @@
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
-import { Surface, Avatar, Card } from "react-native-paper";
+import { Surface, Avatar, Card, Text } from "react-native-paper";
 import { Pressable } from "react-native";
 import { getCategory } from "../utils";
 

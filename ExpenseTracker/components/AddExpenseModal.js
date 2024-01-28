@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Modal, Portal, Text, Button } from "react-native-paper";
+import { Modal, Portal, Text, Button, Surface } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { FormBuilder } from "react-native-paper-form-builder";
 import { CURRENCIES, CATEGORIES } from "../data/dummy-data";
@@ -41,7 +41,7 @@ export default function AddExpenseModal({ visible, hideModal, category }) {
 				onDismiss={hideModal}
 				contentContainerStyle={styles.containerStyle}
 			>
-				<View style={{}}>
+				<Surface style={styles.surface}>
 					<Text style={styles.header}>Add Expense</Text>
 					<FormBuilder
 						control={control}
@@ -145,14 +145,13 @@ export default function AddExpenseModal({ visible, hideModal, category }) {
 							Submit
 						</Button>
 					</View>
-				</View>
+				</Surface>
 			</Modal>
 		</Portal>
 	);
 }
 const styles = StyleSheet.create({
-	containerStyle: {
-		backgroundColor: "white",
+	surface: {
 		padding: 20,
 		margin: 20,
 		borderRadius: 12,

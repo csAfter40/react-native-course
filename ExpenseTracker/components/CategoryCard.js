@@ -1,4 +1,5 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import React from "react";
 import { FAB } from "react-native-paper";
 
@@ -6,7 +7,7 @@ export default function CategoryCard({ category, onCategorySelect, style, textSt
 	return (
 		<View style={[styles.container, style]}>
 			<FAB icon={category.icon} onPress={onCategorySelect} size="large" />
-			<Text style={[styles.text, textStyle]}>{category.title}</Text>
+			<Text style={textStyle}>{category.title}</Text>
 		</View>
 	);
 }
@@ -18,5 +19,4 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		gap: 5,
 	},
-	text: {},
 });
