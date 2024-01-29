@@ -1,7 +1,7 @@
 import React from "react";
 import { Appbar } from "react-native-paper";
 import { getHeaderTitle } from "@react-navigation/elements";
-import AddExpenseModal from "./AddExpenseModal";
+import ManageExpenseModal from "./ManageExpenseModal";
 
 export default function TopBar({
 	title,
@@ -23,7 +23,7 @@ export default function TopBar({
 				<Appbar.Content title={barTitle} />
 				{hasPlus && <Appbar.Action icon="plus" onPress={showModal} />}
 			</Appbar.Header>
-			<AddExpenseModal
+			<ManageExpenseModal
 				visible={visible}
 				hideModal={hideModal}
 				category={category}

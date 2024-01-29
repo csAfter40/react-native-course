@@ -8,30 +8,40 @@ import { DatePickerInput } from "react-native-paper-dates";
 import { DataContext } from "../context/DataProvider";
 import { SettingsContext } from "../context/SettingsProvider";
 import { expenseFactory } from "../utils";
+import { useTheme } from "react-native-paper";
 
-export default function AddExpenseModal({ visible, hideModal, category }) {
+export default function ManageExpenseModal({ visible, hideModal, category, expense }) {
+	const theme = useTheme();
 	const { userCurrency } = React.useContext(SettingsContext);
 	const { control, setFocus, handleSubmit, reset } = useForm({
 		defaultValues: {
-			title: "",
-			amount: "",
-			currency: userCurrency,
-			category: category || "",
-			date: new Date(),
+			title: expense?.title || "",
+			amount: expense?.amount.toString() || "",
+			currency: expense?.currency || userCurrency,
+			category: expense?.category || category || "",
+			date: expense?.date || new Date(),
 		},
 		mode: "onChange",
 	});
-	const { addToExpenses } = React.useContext(DataContext);
+	const { addToExpenses, editExpense, removeFromExpenses } =
+		React.useContext(DataContext);
 	function onCancel() {
 		hideModal();
 		reset();
 	}
 
 	function onSubmit(data) {
-		console.log(data);
 		const expense = expenseFactory(data);
 		addToExpenses(expense);
 		reset();
+		hideModal();
+	}
+	function deleteExpense() {
+		removeFromExpenses(expense.id);
+		hideModal();
+	}
+	function onSave(data) {
+		editExpense(expense.id, data);
 		hideModal();
 	}
 
@@ -43,7 +53,9 @@ export default function AddExpenseModal({ visible, hideModal, category }) {
 				contentContainerStyle={styles.containerStyle}
 			>
 				<Surface style={styles.surface}>
-					<Text style={styles.header}>Add Expense</Text>
+					<Text style={styles.header}>
+						{expense ? "Edit Expense" : "Add Expense"}
+					</Text>
 					<FormBuilder
 						control={control}
 						setFocus={setFocus}
@@ -138,13 +150,34 @@ export default function AddExpenseModal({ visible, hideModal, category }) {
 						>
 							Cancel
 						</Button>
-						<Button
-							mode="contained"
-							style={styles.button}
-							onPress={handleSubmit(onSubmit)}
-						>
-							Submit
-						</Button>
+						{expense ? (
+							<>
+								<Button
+									mode="contained"
+									style={styles.button}
+									onPress={deleteExpense}
+									buttonColor={theme.colors.errorContainer}
+									textColor={theme.colors.error}
+								>
+									Delete
+								</Button>
+								<Button
+									mode="contained"
+									style={styles.button}
+									onPress={handleSubmit(onSave)}
+								>
+									Save
+								</Button>
+							</>
+						) : (
+							<Button
+								mode="contained"
+								style={styles.button}
+								onPress={handleSubmit(onSubmit)}
+							>
+								Submit
+							</Button>
+						)}
 					</View>
 				</Surface>
 			</Modal>
