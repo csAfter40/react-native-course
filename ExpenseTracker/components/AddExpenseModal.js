@@ -6,21 +6,22 @@ import { FormBuilder } from "react-native-paper-form-builder";
 import { CURRENCIES, CATEGORIES } from "../data/dummy-data";
 import { DatePickerInput } from "react-native-paper-dates";
 import { DataContext } from "../context/DataProvider";
+import { SettingsContext } from "../context/SettingsProvider";
 import { expenseFactory } from "../utils";
 
 export default function AddExpenseModal({ visible, hideModal, category }) {
+	const { userCurrency } = React.useContext(SettingsContext);
 	const { control, setFocus, handleSubmit, reset } = useForm({
 		defaultValues: {
 			title: "",
 			amount: "",
-			currency: "",
+			currency: userCurrency,
 			category: category || "",
 			date: new Date(),
 		},
 		mode: "onChange",
 	});
 	const { addToExpenses } = React.useContext(DataContext);
-
 	function onCancel() {
 		hideModal();
 		reset();
