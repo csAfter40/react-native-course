@@ -6,9 +6,6 @@ import PageMessage from "../components/PageMessage";
 
 export default function CategoryExpenses() {
 	const { expenses } = React.useContext(DataContext);
-	function addNewExpense() {
-		console.log("plus button pressed");
-	}
 	const route = useRoute();
 	const categoryId = route.params.categoryId;
 	const filteredExpenses = categoryId
