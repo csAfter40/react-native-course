@@ -13,12 +13,24 @@ function DataProvider(props) {
 	function addToExpenses(expense) {
 		setExpenses((prevList) => [...prevList, expense]);
 	}
+	function editExpense(expenseId, data) {
+		setExpenses((prevList) => {
+			return prevList.map((expense) => {
+				if (expense.id === expenseId) {
+					return { ...data, id: expenseId };
+				} else {
+					return expense;
+				}
+			});
+		});
+	}
 	return (
 		<DataContext.Provider
 			value={{
 				expenses,
 				removeFromExpenses,
 				addToExpenses,
+				editExpense,
 			}}
 		>
 			{props.children}
