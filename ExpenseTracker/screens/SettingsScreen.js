@@ -10,7 +10,7 @@ export default function SettingsScreen() {
 	const { toggleDarkMode, darkMode } = React.useContext(SettingsContext);
 	return (
 		<>
-			<TopBar title={"Settings"} />
+			<TopBar title={"Settings"} hasPlus={false} />
 			<Page style={styles.page}>
 				<SettingsItem
 					text="Dark Mode"
