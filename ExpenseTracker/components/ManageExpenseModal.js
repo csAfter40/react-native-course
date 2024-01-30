@@ -68,6 +68,11 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 										value: true,
 										message: "Expense title is required.",
 									},
+									maxLength: {
+										value: 50,
+										message:
+											"Title should be less than 50 characters.",
+									},
 								},
 								textInputProps: {
 									label: "Title",
@@ -88,7 +93,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 								},
 								textInputProps: {
 									label: "Amount",
-									keyboardType: "number-pad",
+									keyboardType: "decimal-pad",
 								},
 							},
 							{
