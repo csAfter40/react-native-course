@@ -21,7 +21,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 			category: expense?.category || category || "",
 			date: expense?.date || new Date(),
 		},
-		mode: "onChange",
+		mode: "onSubmit",
 	});
 	const { addToExpenses, editExpense, removeFromExpenses } =
 		React.useContext(DataContext);
@@ -41,6 +41,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 		hideModal();
 	}
 	function onSave(data) {
+		data["amount"] = parseFloat(data["amount"]);
 		editExpense(expense.id, data);
 		hideModal();
 	}
@@ -87,7 +88,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 										message: "Expense amount is required.",
 									},
 									pattern: {
-										value: /^[0-9]*\.[0-9]{2}$/,
+										value: /^([1-9]\d*|[0-9]*\.[0-9]{2})$/,
 										message: "Please enter a valid amount",
 									},
 								},

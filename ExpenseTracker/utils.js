@@ -4,7 +4,7 @@ import { CATEGORIES } from "./data/dummy-data";
 export function expenseFactory(data) {
 	const expense = new Expense(
 		data.title,
-		data.amount,
+		parseFloat(data.amount),
 		data.currency,
 		data.date,
 		data.category

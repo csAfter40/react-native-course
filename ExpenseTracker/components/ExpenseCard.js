@@ -21,7 +21,7 @@ export default function ExpenseCard({ expense, onExpenseSelect }) {
 					<Card.Title
 						title={expense.title}
 						titleStyle={styles.title}
-						subtitle={`${expense.amount} ${expense.currency}`}
+						subtitle={`${expense.amount.toFixed(2)} ${expense.currency}`}
 						left={(props) => <Avatar.Icon {...props} icon={category.icon} />}
 						right={(props) => (
 							<Text>{expense.date.toLocaleDateString()}</Text>
