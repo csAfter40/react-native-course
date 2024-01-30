@@ -84,6 +84,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 								},
 								textInputProps: {
 									label: "Amount",
+									keyboardType: "number-pad",
 								},
 							},
 							{
