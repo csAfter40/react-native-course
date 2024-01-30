@@ -81,6 +81,10 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 										value: true,
 										message: "Expense amount is required.",
 									},
+									pattern: {
+										value: /^[0-9]*\.[0-9]{2}$/,
+										message: "Please enter a valid amount",
+									},
 								},
 								textInputProps: {
 									label: "Amount",
