@@ -12,7 +12,7 @@ function DataProvider(props) {
 				value.date = new Date(value.date);
 				newExpenses.push({ ...value, id: key });
 			}
-			setExpenses(newExpenses);
+			setExpenses(newExpenses.reverse());
 		});
 	}
 	React.useEffect(() => {
