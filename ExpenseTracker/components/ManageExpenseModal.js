@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Modal, Portal, Text, Button, Surface } from "react-native-paper";
+import { Modal, Portal, Text, Button, Surface, Snackbar } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { FormBuilder } from "react-native-paper-form-builder";
 import { CURRENCIES, CATEGORIES } from "../data/dummy-data";
@@ -9,8 +9,10 @@ import { DataContext } from "../context/DataProvider";
 import { SettingsContext } from "../context/SettingsProvider";
 import { useTheme } from "react-native-paper";
 import axiosInstance from "../axios";
+import { SnackContext } from "../context/SnackProvider";
 
 export default function ManageExpenseModal({ visible, hideModal, category, expense }) {
+	const { snack } = React.useContext(SnackContext);
 	const theme = useTheme();
 	const { userCurrency } = React.useContext(SettingsContext);
 	const { control, setFocus, handleSubmit, reset } = useForm({
@@ -35,12 +37,13 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 		axiosInstance
 			.post("/expenses.json", data)
 			.then((response) => {
-				console.log("expense successfully saved");
+				snack("Expense successfully saved.");
 				refreshExpenses();
 				reset();
 				hideModal();
 			})
 			.catch((err) => {
+				snack("Error occured while saving expense");
 				console.log(err);
 			});
 	}
@@ -48,22 +51,28 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 		axiosInstance
 			.delete(`/expenses/${expense.id}.json`)
 			.then((response) => {
-				console.log("expense successfully deleted");
+				snack("Expense successfully deleted");
 				refreshExpenses();
 				hideModal();
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				snack("Error occured while deleting expense");
+				console.log(err);
+			});
 	}
 	function onSave(data) {
 		data["amount"] = parseFloat(data["amount"]);
 		axiosInstance
 			.put(`/expenses/${expense.id}.json`, data)
 			.then((response) => {
-				console.log("expense successfully updated");
+				snack("Expense successfully updated");
 				refreshExpenses();
 				hideModal();
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				snack("Error occured while updating expense");
+				console.log(err);
+			});
 	}
 
 	return (
