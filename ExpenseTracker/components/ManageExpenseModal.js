@@ -7,8 +7,8 @@ import { CURRENCIES, CATEGORIES } from "../data/dummy-data";
 import { DatePickerInput } from "react-native-paper-dates";
 import { DataContext } from "../context/DataProvider";
 import { SettingsContext } from "../context/SettingsProvider";
-import { expenseFactory } from "../utils";
 import { useTheme } from "react-native-paper";
+import axiosInstance from "../axios";
 
 export default function ManageExpenseModal({ visible, hideModal, category, expense }) {
 	const theme = useTheme();
@@ -23,7 +23,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 		},
 		mode: "onSubmit",
 	});
-	const { addToExpenses, editExpense, removeFromExpenses } =
+	const { refreshExpenses, addToExpenses, editExpense, removeFromExpenses } =
 		React.useContext(DataContext);
 	function onCancel() {
 		hideModal();
@@ -31,19 +31,39 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 	}
 
 	function onSubmit(data) {
-		const expense = expenseFactory(data);
-		addToExpenses(expense);
-		reset();
-		hideModal();
+		data.amount = +data.amount;
+		axiosInstance
+			.post("/expenses.json", data)
+			.then((response) => {
+				console.log("expense successfully saved");
+				refreshExpenses();
+				reset();
+				hideModal();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}
 	function deleteExpense() {
-		removeFromExpenses(expense.id);
-		hideModal();
+		axiosInstance
+			.delete(`/expenses/${expense.id}.json`)
+			.then((response) => {
+				console.log("expense successfully deleted");
+				refreshExpenses();
+				hideModal();
+			})
+			.catch((err) => console.log(err));
 	}
 	function onSave(data) {
 		data["amount"] = parseFloat(data["amount"]);
-		editExpense(expense.id, data);
-		hideModal();
+		axiosInstance
+			.put(`/expenses/${expense.id}.json`, data)
+			.then((response) => {
+				console.log("expense successfully updated");
+				refreshExpenses();
+				hideModal();
+			})
+			.catch((err) => console.log(err));
 	}
 
 	return (
