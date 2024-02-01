@@ -6,6 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { enGB, tr, en, fr, registerTranslation } from "react-native-paper-dates";
 import { SettingsProvider } from "./context/SettingsProvider";
 import ThemedPaperProvider from "./context/ThemedPaperProvider";
+import { SnackProvider } from "./context/SnackProvider";
+import GlobalSnackbar from "./components/GlobalSnackbar";
 registerTranslation("en-GB", enGB);
 registerTranslation("en", en);
 registerTranslation("tr", tr);
@@ -16,10 +18,13 @@ export default function App() {
 		<SettingsProvider>
 			<DataProvider>
 				<ThemedPaperProvider>
-					<NavigationContainer>
-						<StatusBar style="auto" />
-						<BottomTabNavigation />
-					</NavigationContainer>
+					<SnackProvider>
+						<NavigationContainer>
+							<StatusBar style="auto" />
+							<BottomTabNavigation />
+						</NavigationContainer>
+						<GlobalSnackbar />
+					</SnackProvider>
 				</ThemedPaperProvider>
 			</DataProvider>
 		</SettingsProvider>
