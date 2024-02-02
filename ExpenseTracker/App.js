@@ -8,6 +8,8 @@ import { SettingsProvider } from "./context/SettingsProvider";
 import ThemedPaperProvider from "./context/ThemedPaperProvider";
 import { SnackProvider } from "./context/SnackProvider";
 import GlobalSnackbar from "./components/GlobalSnackbar";
+import GlobalSpinner from "./components/GlobalSpinner";
+import { SpinnerProvider } from "./context/SpinnerProvider";
 registerTranslation("en-GB", enGB);
 registerTranslation("en", en);
 registerTranslation("tr", tr);
@@ -16,17 +18,19 @@ registerTranslation("fr", fr);
 export default function App() {
 	return (
 		<SettingsProvider>
-			<DataProvider>
+			<SpinnerProvider>
 				<ThemedPaperProvider>
 					<SnackProvider>
-						<NavigationContainer>
-							<StatusBar style="auto" />
-							<BottomTabNavigation />
-						</NavigationContainer>
+						<DataProvider>
+							<NavigationContainer>
+								<StatusBar style="auto" />
+								<BottomTabNavigation />
+							</NavigationContainer>
+						</DataProvider>
 						<GlobalSnackbar />
 					</SnackProvider>
 				</ThemedPaperProvider>
-			</DataProvider>
+			</SpinnerProvider>
 		</SettingsProvider>
 	);
 }
