@@ -1,19 +1,31 @@
 import React, { createContext } from "react";
 import axiosInstance from "../axios";
-
+import { SpinnerContext } from "./SpinnerProvider";
+import { SnackContext } from "./SnackProvider";
 const DataContext = createContext();
 
 function DataProvider(props) {
+	const { startSpinner, stopSpinner } = React.useContext(SpinnerContext);
+	const { snack } = React.useContext(SnackContext);
 	const [expenses, setExpenses] = React.useState([]);
 	function refreshExpenses() {
+		startSpinner();
 		let newExpenses = [];
-		axiosInstance.get("/expenses.json").then((response) => {
-			for (const [key, value] of Object.entries(response.data)) {
-				value.date = new Date(value.date);
-				newExpenses.push({ ...value, id: key });
-			}
-			setExpenses(newExpenses.reverse());
-		});
+		axiosInstance
+			.get("/expenses.json")
+			.then((response) => {
+				for (const [key, value] of Object.entries(response.data)) {
+					value.date = new Date(value.date);
+					newExpenses.push({ ...value, id: key });
+				}
+				setExpenses(newExpenses.reverse());
+				stopSpinner();
+			})
+			.catch((err) => {
+				snack("Problem fetching expenses data.");
+				console.log(err);
+				stopSpinner();
+			});
 	}
 	React.useEffect(() => {
 		refreshExpenses();

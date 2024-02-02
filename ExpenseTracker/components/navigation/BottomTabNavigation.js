@@ -4,8 +4,11 @@ import RecentExpensesScreen from "../../screens/RecentExpensesScreen";
 import AllExpensesScreen from "../../screens/AllExpensesScreen";
 import CategoryStackNavigator from "./CategoryStackNavigator";
 import SettingsScreen from "../../screens/SettingsScreen";
+import GlobalSpinner from "../GlobalSpinner";
+import { SpinnerContext } from "../../context/SpinnerProvider";
 
 export default function BottomTabNavigation() {
+	const { spinnerVisible } = React.useContext(SpinnerContext);
 	const [index, setIndex] = React.useState(0);
 	const [routes] = React.useState([
 		{
@@ -42,10 +45,13 @@ export default function BottomTabNavigation() {
 	});
 
 	return (
-		<BottomNavigation
-			navigationState={{ index, routes }}
-			onIndexChange={setIndex}
-			renderScene={renderScene}
-		/>
+		<>
+			<BottomNavigation
+				navigationState={{ index, routes }}
+				onIndexChange={setIndex}
+				renderScene={renderScene}
+			/>
+			{spinnerVisible && <GlobalSpinner />}
+		</>
 	);
 }

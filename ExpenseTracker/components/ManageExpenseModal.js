@@ -10,8 +10,10 @@ import { SettingsContext } from "../context/SettingsProvider";
 import { useTheme } from "react-native-paper";
 import axiosInstance from "../axios";
 import { SnackContext } from "../context/SnackProvider";
+import { SpinnerContext } from "../context/SpinnerProvider";
 
 export default function ManageExpenseModal({ visible, hideModal, category, expense }) {
+	const { startSpinner, stopSpinner } = React.useContext(SpinnerContext);
 	const { snack } = React.useContext(SnackContext);
 	const theme = useTheme();
 	const { userCurrency } = React.useContext(SettingsContext);
@@ -34,6 +36,7 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 
 	function onSubmit(data) {
 		data.amount = +data.amount;
+		startSpinner();
 		axiosInstance
 			.post("/expenses.json", data)
 			.then((response) => {
@@ -45,9 +48,11 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 			.catch((err) => {
 				snack("Error occured while saving expense");
 				console.log(err);
-			});
+			})
+			.finally(stopSpinner);
 	}
 	function deleteExpense() {
+		startSpinner();
 		axiosInstance
 			.delete(`/expenses/${expense.id}.json`)
 			.then((response) => {
@@ -58,9 +63,11 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 			.catch((err) => {
 				snack("Error occured while deleting expense");
 				console.log(err);
-			});
+			})
+			.finally(stopSpinner);
 	}
 	function onSave(data) {
+		startSpinner();
 		data["amount"] = parseFloat(data["amount"]);
 		axiosInstance
 			.put(`/expenses/${expense.id}.json`, data)
@@ -72,7 +79,8 @@ export default function ManageExpenseModal({ visible, hideModal, category, expen
 			.catch((err) => {
 				snack("Error occured while updating expense");
 				console.log(err);
-			});
+			})
+			.finally(stopSpinner);
 	}
 
 	return (
