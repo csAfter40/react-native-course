@@ -8,9 +8,11 @@ import SignupScreen from "./screens/SignupScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { Colors } from "./constants/styles";
 import LogoutButton from "./components/LogoutButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
 
 const Stack = createNativeStackNavigator();
-
+SplashScreen.preventAutoHideAsync();
 function AuthStack() {
 	return (
 		<Stack.Navigator
@@ -50,12 +52,27 @@ function Navigation() {
 	);
 }
 
+function Root() {
+	const { login } = React.useContext(AuthContext);
+	React.useEffect(() => {
+		async function getToken() {
+			const storedToken = await AsyncStorage.getItem("token");
+			if (storedToken) {
+				login(storedToken);
+			}
+			SplashScreen.hideAsync();
+		}
+		getToken();
+	}, []);
+	return <Navigation />;
+}
+
 export default function App() {
 	return (
 		<>
 			<StatusBar style="light" />
 			<AuthProvider>
-				<Navigation />
+				<Root />
 			</AuthProvider>
 		</>
 	);
