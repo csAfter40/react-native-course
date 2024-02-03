@@ -1,14 +1,11 @@
 import axios from "axios";
 
-const baseURL = "https://identitytoolkit.googleapis.com/v1";
-console.log(baseURL);
-
 // refreshingFunction is used in case multiple requests are made and the following requests need to wait for the first request to make the token refresh.
 // Reference:
 // https://andreyka26.com/handling-refreshing-token-on-multiple-requests-using-react
 let refreshingFunction = undefined;
-const axiosInstance = axios.create({
-	baseURL: baseURL,
+const axiosAuthInstance = axios.create({
+	baseURL: "https://identitytoolkit.googleapis.com/v1",
 	timeout: 5000,
 	headers: {
 		// Authorization: localStorage.getItem("access-token")
@@ -20,7 +17,7 @@ const axiosInstance = axios.create({
 });
 
 // interceptors are where we handle error responses from api especially handling refresh token
-axiosInstance.interceptors.response.use(
+axiosAuthInstance.interceptors.response.use(
 	(response) => {
 		return response;
 	},
@@ -109,4 +106,33 @@ axiosInstance.interceptors.response.use(
 	}
 );
 
-export default axiosInstance;
+const axiosDbInstance = axios.create({
+	baseURL: "https://authapp-6f541-default-rtdb.firebaseio.com",
+	timeout: 5000,
+	headers: {
+		// Authorization: localStorage.getItem("access-token")
+		//     ? "JWT " + localStorage.getItem("access-token")
+		//     : null,
+		"Content-Type": "application/json",
+		accept: "application/json",
+	},
+});
+
+axiosDbInstance.interceptors.response.use(
+	(response) => {
+		return response;
+	},
+	async function (error) {
+		if (typeof error.response === "undefined") {
+			console.log(
+				"A server/network error occurred. " +
+					"Looks like CORS might be the problem. " +
+					"Sorry about this - we will get it fixed shortly."
+			);
+			return Promise.reject(error);
+		}
+		return Promise.reject(error);
+	}
+);
+
+export { axiosAuthInstance, axiosDbInstance };

@@ -1,4 +1,4 @@
-import axiosInstance from "../axios";
+import { axiosAuthInstance } from "../axios";
 import { FIREBASE_API_KEY } from "@env";
 
 export async function authenticate(mode, email, password) {
@@ -8,7 +8,7 @@ export async function authenticate(mode, email, password) {
 	} else if (mode == "signup") {
 		path = `/accounts:signUp?key=${FIREBASE_API_KEY}`;
 	}
-	const response = await axiosInstance.post(path, {
+	const response = await axiosAuthInstance.post(path, {
 		email: email,
 		password: password,
 		returnSecureToken: true,
