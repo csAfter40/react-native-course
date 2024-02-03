@@ -15,9 +15,8 @@ function SignupScreen() {
 			login(response.data.idToken);
 		} catch (error) {
 			Alert.alert("Authentication failed", "Please check your credentials.");
-		} finally {
 			setIsAuthenticating(false);
-		}
+		} 
 	}
 	return isAuthenticating ? (
 		<LoadingOverlay message="Creating user..." />

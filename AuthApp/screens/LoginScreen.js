@@ -16,9 +16,8 @@ function LoginScreen() {
 		} catch (error) {
 			console.log(error);
 			Alert.alert("Authentication failed", "Please check your credentials.");
-		} finally {
 			setIsAuthenticating(false);
-		}
+		} 
 	}
 	return isAuthenticating ? (
 		<LoadingOverlay message="Logging in..." />
