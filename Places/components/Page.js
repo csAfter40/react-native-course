@@ -1,9 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Page({ children, style }) {
-	return <SafeAreaView style={[styles.page, style]}>{children}</SafeAreaView>;
+	return <View style={[styles.page, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
