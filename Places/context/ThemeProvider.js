@@ -10,9 +10,17 @@ function ThemeProvider({ children }) {
 	function toggleThemeMode() {
 		setThemeMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
 	}
+    function setDark() {
+		setThemeMode("dark");
+	}
+	function setLight() {
+		setThemeMode("light");
+	}
 	const theme = { ...MD3LightTheme, colors: themes[themeMode].colors };
 	return (
-		<ThemeContext.Provider value={{ theme, toggleThemeMode, themeMode }}>
+		<ThemeContext.Provider
+			value={{ theme, toggleThemeMode, themeMode, setLight, setDark }}
+		>
 			{children}
 		</ThemeContext.Provider>
 	);
