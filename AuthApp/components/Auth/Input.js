@@ -11,20 +11,18 @@ function Input({
   isInvalid,
 }) {
   return (
-    <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
-        {label}
-      </Text>
-      <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
-        autoCapitalize={false}
-        autoCapitalize="none"
-        keyboardType={keyboardType}
-        secureTextEntry={secure}
-        onChangeText={onUpdateValue}
-        value={value}
-      />
-    </View>
+		<View style={styles.inputContainer}>
+			<Text style={[styles.label, isInvalid && styles.labelInvalid]}>{label}</Text>
+			<TextInput
+				style={[styles.input, isInvalid && styles.inputInvalid]}
+				autoCapitalize={false}
+				// autoCapitalize="none"
+				keyboardType={keyboardType}
+				secureTextEntry={secure}
+				onChangeText={onUpdateValue}
+				value={value}
+			/>
+		</View>
   );
 }
 
