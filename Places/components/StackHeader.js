@@ -8,6 +8,7 @@ export default function StackHeader({ navigation, route, options, back }) {
 		AddPlace: [],
 		AllPlaces: ["plus"],
 		PlaceDetail: [],
+		MapSelect: [],
 	};
 	function onPlusPress() {
 		navigation.navigate("AddPlace");
