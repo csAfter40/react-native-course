@@ -1,13 +1,15 @@
 import { View, StyleSheet } from "react-native";
-import { TextInput, Button, HelperText, Text } from "react-native-paper";
+import { TextInput, Button, HelperText } from "react-native-paper";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import ImagePicker from "./ImagePicker";
+import LocationPicker from "./LocationPicker";
+import Place from "../models/place";
 
 export default function PlaceForm({ place, onSubmit }) {
 	const [image, setImage] = React.useState(null);
-
-	const { handleSubmit, control, formState } = useForm({
+	const [location, setLocation] = React.useState(null);
+	const { handleSubmit, control, formState, setValue } = useForm({
 		defaultValues: {
 			title: place?.title || "",
 			address: place?.address || "",
@@ -16,10 +18,11 @@ export default function PlaceForm({ place, onSubmit }) {
 	});
 
 	function onSubmit(data) {
-		if (formState.errors) {
-			console.log(formState);
-		}
-		console.log(data);
+		const place = new Place(data.title, image.uri, data.address, location);
+		console.log(place);
+	}
+	function handleSetAsAddress(addressFromLocation) {
+		setValue("address", addressFromLocation);
 	}
 	return (
 		<View style={styles.container}>
@@ -61,13 +64,18 @@ export default function PlaceForm({ place, onSubmit }) {
 				/>
 			</View>
 			<ImagePicker image={image} setImage={setImage} />
+			<LocationPicker
+				location={location}
+				setLocation={setLocation}
+				handleSetAsAddress={handleSetAsAddress}
+			/>
 			<View style={styles.buttonContainer}>
 				<Button
 					style={styles.button}
-					mode="contained-tonal"
+					mode="contained"
 					onPress={handleSubmit(onSubmit)}
 				>
-					<Text style={styles.buttonText}>Confirm</Text>
+					Save Place
 				</Button>
 			</View>
 		</View>
@@ -92,12 +100,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		marginVertical: 20,
+		marginBottom: 40,
 	},
 	buttonText: {
 		fontSize: 15,
 	},
 	input: {
 		width: "100%",
-		marginTop: 20,
+		marginTop: 12,
 	},
 });
