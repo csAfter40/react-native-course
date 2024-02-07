@@ -1,12 +1,13 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Alert } from "react-native";
 import React from "react";
-import { Surface, Text, Button, Icon } from "react-native-paper";
+import { Surface, Text, Button, Icon, Menu, IconButton } from "react-native-paper";
 import { useTheme } from "react-native-paper";
 import * as Location from "expo-location";
-import { getMapUri } from "../utils";
+import { getGeocodingUrl, getMapUri } from "../utils";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import axios from "axios";
 
-export default function LocationPicker({ location, setLocation }) {
+export default function LocationPicker({ location, setLocation, handleSetAsAddress }) {
 	const theme = useTheme();
 	const styles = StyleSheet.create({
 		locationSectionContainer: {
@@ -16,6 +17,12 @@ export default function LocationPicker({ location, setLocation }) {
 			borderRadius: 4,
 			marginTop: 20,
 			padding: 17,
+		},
+		headerContainer: {
+			flexDirection: "row",
+			alignItems: "center",
+			justifyContent: "space-between",
+			width: "100%",
 		},
 		mapContainer: {
 			width: "100%",
@@ -45,6 +52,17 @@ export default function LocationPicker({ location, setLocation }) {
 	const navigation = useNavigation();
 	const route = useRoute();
 	const isFocused = useIsFocused();
+	const [menuVisible, setMenuVisible] = React.useState(false);
+	function showMenu() {
+		setMenuVisible(true);
+	}
+	function hideMenu() {
+		setMenuVisible(false);
+	}
+	function removeLocation() {
+		setLocation(null);
+		hideMenu();
+	}
 	React.useEffect(() => {
 		if (isFocused && route.params) {
 			setLocation(route.params.location);
@@ -75,11 +93,48 @@ export default function LocationPicker({ location, setLocation }) {
 	async function handlePickMap() {
 		navigation.navigate("MapSelect");
 	}
+	async function setAsAddress() {
+		hideMenu();
+		if (!location) {
+			return;
+		}
+		const url = getGeocodingUrl(location);
+		axios
+			.get(url)
+			.then((response) => {
+				const addressData = response.data.results.find((result) =>
+					result.types.includes("route")
+				);
+				handleSetAsAddress(addressData.formatted_address);
+			})
+			.catch((error) => {
+				console.log(error);
+				Alert.alert("Unable to get address from location");
+			});
+	}
 	return (
 		<View style={styles.locationSectionContainer}>
-			<Text variant="bodyLarge" style={styles.mapTitle}>
-				Location
-			</Text>
+			<View style={styles.headerContainer}>
+				<Text variant="bodyLarge" style={styles.mapTitle}>
+					Location
+				</Text>
+				{location && (
+					<Menu
+						visible={menuVisible}
+						onDismiss={hideMenu}
+						anchor={
+							<IconButton
+								icon="dots-vertical"
+								size={20}
+								onPress={showMenu}
+							/>
+						}
+					>
+						<Menu.Item onPress={removeLocation} title="Remove Location" />
+						<Menu.Item onPress={setAsAddress} title="Set as Address" />
+					</Menu>
+				)}
+			</View>
 			<Surface mode="elevated" elevation={1} style={styles.mapContainer}>
 				{location ? (
 					<Image
@@ -110,16 +165,6 @@ export default function LocationPicker({ location, setLocation }) {
 					Pick on Map
 				</Button>
 			</View>
-			{location && (
-				<Button
-					icon={"map-marker-remove"}
-					mode="outlined"
-					style={styles.mapButton}
-					onPress={() => setLocation(null)}
-				>
-					Remove Location
-				</Button>
-			)}
 		</View>
 	);
 }
