@@ -5,3 +5,9 @@ export function getMapUri(location) {
 
 	return `https://maps.googleapis.com/maps/api/staticmap?center=${mapCenter}&zoom=12&size=400x400&markers=color:red%7C${mapCenter}&key=${GOOGLE_MAPS_API_KEY}`;
 }
+
+export function getGeocodingUrl(location) {
+	const locationStr = `${location.lat},${location.lng}`;
+
+	return `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationStr}&key=${GOOGLE_MAPS_API_KEY}`;
+}
