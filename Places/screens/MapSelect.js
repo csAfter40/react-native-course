@@ -31,7 +31,7 @@ export default function MapSelect() {
 	}
 	function handleSave() {
 		if (pickedLocation) {
-			navigation.replace("AddPlace", { location: pickedLocation });
+			navigation.navigate("AddPlace", { location: pickedLocation });
 		} else {
 			Alert.alert("Location missing.", "You need to pick a location.");
 		}
