@@ -29,7 +29,7 @@ export default function PlaceForm({ place, onSubmit }) {
 			location.lng
 		);
 		await insertPlace(place);
-		navigation.navigate("AllPlaces");
+		navigation.replace("AllPlaces");
 	}
 	function handleSetAsAddress(addressFromLocation) {
 		setValue("address", addressFromLocation);
