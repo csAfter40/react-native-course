@@ -4,7 +4,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import MainStack from "./navigators/MainStack";
 import { ThemeProvider, ThemeContext } from "./context/ThemeProvider";
+import { initDb } from "./utils/database";
+import * as SplashScreen from "expo-splash-screen";
 
+SplashScreen.preventAutoHideAsync();
 
 function Main() {
 	const { theme } = React.useContext(ThemeContext);
@@ -19,6 +22,18 @@ function Main() {
 }
 
 export default function App() {
+	React.useEffect(() => {
+		async function prepare() {
+			try {
+				await initDb();
+			} catch (error) {
+				console.log(error);
+			} finally {
+				await SplashScreen.hideAsync();
+			}
+		}
+		prepare();
+	}, []);
 	return (
 		<ThemeProvider>
 			<Main />
