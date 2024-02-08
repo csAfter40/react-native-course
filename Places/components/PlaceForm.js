@@ -5,6 +5,8 @@ import { Controller, useForm } from "react-hook-form";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Place from "../models/place";
+import { insertPlace } from "../utils/database";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PlaceForm({ place, onSubmit }) {
 	const [image, setImage] = React.useState(null);
@@ -16,10 +18,18 @@ export default function PlaceForm({ place, onSubmit }) {
 		},
 		mode: "onSubmit",
 	});
+	const navigation = useNavigation();
 
-	function onSubmit(data) {
-		const place = new Place(data.title, image.uri, data.address, location);
-		console.log(place);
+	async function onSubmit(data) {
+		const place = new Place(
+			data.title,
+			image.uri,
+			data.address,
+			location.lat,
+			location.lng
+		);
+		await insertPlace(place);
+		navigation.navigate("AllPlaces");
 	}
 	function handleSetAsAddress(addressFromLocation) {
 		setValue("address", addressFromLocation);
