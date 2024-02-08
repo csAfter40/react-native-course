@@ -32,6 +32,7 @@ export default function ImagePicker({ image, setImage }) {
 		},
 		imageButton: {
 			flex: 1,
+			marginTop: 10,
 		},
 		imageButtonContainer: {
 			flexDirection: "row",
@@ -50,10 +51,10 @@ export default function ImagePicker({ image, setImage }) {
 			<Text variant="bodyLarge" style={styles.imageTitle}>
 				Image
 			</Text>
-			<Surface style={styles.imageContainer}>
+			<Surface mode="elevated" elevation={1} style={styles.imageContainer}>
 				{image ? (
 					<Image
-						resizeMode="contain"
+						resizeMode="cover"
 						style={styles.image}
 						source={{ uri: image.uri }}
 					/>
