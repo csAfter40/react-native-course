@@ -26,3 +26,46 @@ export function initDb() {
 	});
 	return promise;
 }
+
+export function insertPlace(place) {
+	const promise = new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"INSERT INTO place (title, imageUri, address, latitude, longitude) VALUES (?, ?, ?, ?, ?)",
+				[
+					place.title,
+					place.imageUri,
+					place.address,
+					place.latitude,
+					place.longitude,
+				], // values
+				(_, result) => {
+					console.log(result);
+					resolve(result);
+				}, // callback if successful
+				(_, error) => {
+					reject(error);
+				} //callback if error
+			);
+		});
+	});
+	return promise;
+}
+
+export function getAllPlaces() {
+	const promise = new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"SELECT * FROM place",
+				[], // values
+				(_, { rows }) => {
+					resolve(rows._array);
+				}, // callback if successful
+				(_, error) => {
+					reject(error);
+				} //callback if error
+			);
+		});
+	});
+	return promise;
+}
