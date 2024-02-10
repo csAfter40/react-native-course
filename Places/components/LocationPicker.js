@@ -3,7 +3,7 @@ import React from "react";
 import { Surface, Text, Button, Icon, Menu, IconButton } from "react-native-paper";
 import { useTheme } from "react-native-paper";
 import * as Location from "expo-location";
-import { getGeocodingUrl, getMapUri } from "../utils";
+import { getMapUri, getGeocodingUrl } from "../utils/googleApiHelpers";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
