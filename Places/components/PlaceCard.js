@@ -1,35 +1,25 @@
-import { View, Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
-import { Text, TouchableRipple } from "react-native-paper";
+import { List } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 export default function PlaceCard({ place, handleCardSelect }) {
+	const theme = useTheme();
+	const styles = StyleSheet.create({
+		listItem: {
+			padding: 0,
+			paddingLeft: 10,
+			backgroundColor: theme.colors.surfaceVariant,
+			marginBottom: 5,
+		},
+	});
 	return (
-		<TouchableRipple style={styles.cardContainer} onPress={handleCardSelect}>
-			{/* <Surface style={styles.cardContainer}> */}
-			<Image style={styles.image} source={{ uri: place.imageUri }} />
-			<View>
-				<Text>{place.title}</Text>
-				<Text>{place.address}</Text>
-			</View>
-			{/* </Surface> */}
-		</TouchableRipple>
+		<List.Item
+			title={place.title}
+			description={place.address}
+			left={() => <List.Image source={{ uri: place.imageUri }} />}
+			onPress={() => console.log("pressedsas!")}
+			style={styles.listItem}
+		/>
 	);
 }
-
-const styles = StyleSheet.create({
-	cardContainer: {
-		width: "100%",
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "flex-start",
-	},
-	textContainer: {
-		alignItems: "center",
-		justifyContent: "flex-start",
-	},
-	image: {
-		width: 70,
-		height: 70,
-		margin: 5,
-	},
-});
