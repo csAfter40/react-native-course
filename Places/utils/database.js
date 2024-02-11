@@ -69,3 +69,21 @@ export function getAllPlaces() {
 	});
 	return promise;
 }
+
+export function getPlaceById(placeId) {
+	const promise = new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"SELECT * FROM place WHERE id = ?",
+				[placeId], // values
+				(_, { rows }) => {
+					resolve(rows._array[0]);
+				}, // callback if successful
+				(_, error) => {
+					reject(error);
+				} //callback if error
+			);
+		});
+	});
+	return promise;
+}
