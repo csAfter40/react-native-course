@@ -3,8 +3,13 @@ import React from "react";
 import PlaceCard from "./PlaceCard";
 import FallbackPage from "./FallbackPage";
 import { FlashList } from "@shopify/flash-list";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PlacesList({ places, style }) {
+	const navigation = useNavigation();
+	function handleCardSelect(id) {
+		navigation.navigate("PlaceDetail", { placeId: id });
+	}
 	return (
 		<>
 			{!places || places.length === 0 ? (
@@ -12,7 +17,12 @@ export default function PlacesList({ places, style }) {
 			) : (
 				<FlashList
 					data={places}
-					renderItem={({ item }) => <PlaceCard place={item} />}
+					renderItem={({ item }) => (
+						<PlaceCard
+							place={item}
+							handleCardSelect={() => handleCardSelect(item.id)}
+						/>
+					)}
 					keyExtractor={(item) => item.id}
 					style={[styles.container, style]}
 					estimatedItemSize={100}

@@ -18,7 +18,7 @@ export default function PlaceCard({ place, handleCardSelect }) {
 			title={place.title}
 			description={place.address}
 			left={() => <List.Image source={{ uri: place.imageUri }} />}
-			onPress={() => console.log("pressedsas!")}
+			onPress={handleCardSelect}
 			style={styles.listItem}
 		/>
 	);
