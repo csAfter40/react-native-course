@@ -6,6 +6,7 @@ import MainStack from "./navigators/MainStack";
 import { ThemeProvider, ThemeContext } from "./context/ThemeProvider";
 import { initDb } from "./utils/database";
 import * as SplashScreen from "expo-splash-screen";
+import { SpinnerProvider } from "./context/SpinnerProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,10 +14,12 @@ function Main() {
 	const { theme } = React.useContext(ThemeContext);
 	return (
 		<PaperProvider theme={theme}>
-			<NavigationContainer>
-				<MainStack />
-			</NavigationContainer>
-			<StatusBar style="auto" />
+			<SpinnerProvider>
+				<NavigationContainer>
+					<MainStack />
+				</NavigationContainer>
+				<StatusBar style="auto" />
+			</SpinnerProvider>
 		</PaperProvider>
 	);
 }
