@@ -43,7 +43,7 @@ export default function ImagePicker({ image, setImage }) {
 	async function handleCameraStart() {
 		const picture = await launchCameraAsync();
 		if (!picture.canceled) {
-			setImage(picture.assets[0]);
+			setImage(picture.assets[0].uri);
 		}
 	}
 	return (
@@ -56,7 +56,7 @@ export default function ImagePicker({ image, setImage }) {
 					<Image
 						resizeMode="cover"
 						style={styles.image}
-						source={{ uri: image.uri }}
+						source={{ uri: image }}
 					/>
 				) : (
 					<Icon source="image" color={theme.colors.primary} size={50} />

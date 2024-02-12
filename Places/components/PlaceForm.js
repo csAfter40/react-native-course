@@ -5,12 +5,15 @@ import { Controller, useForm } from "react-hook-form";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Place from "../models/place";
-import { insertPlace } from "../utils/database";
+import { insertPlace, editPlace } from "../utils/database";
 import { useNavigation } from "@react-navigation/native";
 
 export default function PlaceForm({ place, onSubmit }) {
-	const [image, setImage] = React.useState(null);
-	const [location, setLocation] = React.useState(null);
+	const [image, setImage] = React.useState(place?.imageUri || null);
+
+	const [location, setLocation] = React.useState(
+		place ? { lat: place.latitude, lng: place.longitude } : null
+	);
 	const { handleSubmit, control, formState, setValue } = useForm({
 		defaultValues: {
 			title: place?.title || "",
@@ -21,15 +24,29 @@ export default function PlaceForm({ place, onSubmit }) {
 	const navigation = useNavigation();
 
 	async function onSubmit(data) {
-		const place = new Place(
+		const newPlace = new Place(
 			data.title,
-			image.uri,
+			image,
 			data.address,
 			location.lat,
 			location.lng
 		);
-		await insertPlace(place);
-		navigation.replace("AllPlaces");
+		if (place) {
+			await editPlace(place.id, newPlace);
+			navigation.reset({
+				index: 1,
+				routes: [
+					{ name: "AllPlaces" },
+					{ name: "PlaceDetail", params: { placeId: place.id } },
+				],
+			});
+		} else {
+			await insertPlace(newPlace);
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "AllPlaces" }],
+			});
+		}
 	}
 	function handleSetAsAddress(addressFromLocation) {
 		setValue("address", addressFromLocation);
@@ -85,7 +102,7 @@ export default function PlaceForm({ place, onSubmit }) {
 					mode="contained"
 					onPress={handleSubmit(onSubmit)}
 				>
-					Save Place
+					{place ? "Save Changes" : "Save Place"}
 				</Button>
 			</View>
 		</View>

@@ -64,7 +64,7 @@ export default function LocationPicker({ location, setLocation, handleSetAsAddre
 		hideMenu();
 	}
 	React.useEffect(() => {
-		if (isFocused && route.params) {
+		if (isFocused && route.params && route.params.location) {
 			setLocation(route.params.location);
 			route.params = null;
 		}
