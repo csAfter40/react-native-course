@@ -22,6 +22,7 @@ import { useTheme } from "react-native-paper";
 import { getPlaceById, deletePlace } from "../utils/database";
 import { SpinnerContext } from "../context/SpinnerProvider";
 import { getMapUri } from "../utils/googleApiHelpers";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function PlaceDetail({ navigation, route }) {
 	const { startSpinner, stopSpinner } = React.useContext(SpinnerContext);
@@ -31,7 +32,8 @@ export default function PlaceDetail({ navigation, route }) {
 	const [place, setPlace] = React.useState(null);
 	const theme = useTheme();
 	const placeId = route.params.placeId;
-	React.useEffect(() => {
+	const isFocused = useIsFocused();
+	function fetchPlace() {
 		startSpinner();
 		getPlaceById(placeId)
 			.then((res) => {
@@ -41,7 +43,10 @@ export default function PlaceDetail({ navigation, route }) {
 				Alert.alert("Error getting place data.");
 			})
 			.finally(stopSpinner);
-	}, []);
+	}
+	React.useEffect(() => {
+		isFocused && fetchPlace();
+	}, [isFocused]);
 	React.useEffect(() => {
 		if (place) {
 			navigation.setOptions({ headerTitle: place.title });
@@ -56,7 +61,7 @@ export default function PlaceDetail({ navigation, route }) {
 		startSpinner();
 		deletePlace(placeId)
 			.then((res) => {
-				navigation.replace("AllPlaces");
+				navigation.navigate("AllPlaces");
 			})
 			.catch((err) => {
 				console.log(err);

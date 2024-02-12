@@ -33,19 +33,10 @@ export default function PlaceForm({ place, onSubmit }) {
 		);
 		if (place) {
 			await editPlace(place.id, newPlace);
-			navigation.reset({
-				index: 1,
-				routes: [
-					{ name: "AllPlaces" },
-					{ name: "PlaceDetail", params: { placeId: place.id } },
-				],
-			});
+			navigation.goBack();
 		} else {
 			await insertPlace(newPlace);
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "AllPlaces" }],
-			});
+			navigation.navigate("AllPlaces");
 		}
 	}
 	function handleSetAsAddress(addressFromLocation) {
