@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FAB } from "react-native-paper";
 import * as Location from "expo-location";
 
-export default function MapSelect() {
+export default function MapSelect({ route }) {
 	React.useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
@@ -15,16 +15,20 @@ export default function MapSelect() {
 			}
 		})();
 	}, []);
-	const [pickedLocation, setPickedLocation] = React.useState(null);
+	const initialLocation = route.params?.initialLocation || null;
+	const [pickedLocation, setPickedLocation] = React.useState(initialLocation || null);
 	const initialRegion = {
-		latitude: 37.78825,
-		longitude: -122.4324,
+		latitude: initialLocation ? initialLocation.lat : 37.78825,
+		longitude: initialLocation ? initialLocation.lng : -122.4324,
 		latitudeDelta: 0.0922,
 		longitudeDelta: 0.0421,
 	};
 	const [region, setRegion] = React.useState(initialRegion);
 	const navigation = useNavigation();
 	function handlePress(event) {
+		if (initialLocation) {
+			return;
+		}
 		const lat = event.nativeEvent.coordinate.latitude;
 		const lng = event.nativeEvent.coordinate.longitude;
 		setPickedLocation({ lat: lat, lng: lng });
@@ -41,7 +45,6 @@ export default function MapSelect() {
 			<MapView
 				style={styles.container}
 				region={region}
-				// onRegionChange={setRegion}
 				onPress={handlePress}
 				showsMyLocationButton={true}
 				showsUserLocation
@@ -57,7 +60,7 @@ export default function MapSelect() {
 				)}
 			</MapView>
 			<FAB
-				visible={!!pickedLocation}
+				visible={!!pickedLocation && !initialLocation}
 				icon="content-save"
 				style={styles.saveFab}
 				size="medium"
