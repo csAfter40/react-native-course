@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StackHeader from "../components/StackHeader";
 import AddPlace from "../screens/AddPlace";
+import EditPlace from "../screens/EditPlace";
 import AllPlaces from "../screens/AllPlaces";
 import MapSelect from "../screens/MapSelect";
 import PlaceDetail from "../screens/PlaceDetail";
@@ -31,6 +32,11 @@ export default function MainStack() {
 					name="AddPlace"
 					component={AddPlace}
 					options={{ headerTitle: "Add Place" }}
+				/>
+				<Stack.Screen
+					name="EditPlace"
+					component={EditPlace}
+					options={{ headerTitle: "Edit Place" }}
 				/>
 				<Stack.Screen
 					name="AllPlaces"

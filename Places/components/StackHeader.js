@@ -6,6 +6,7 @@ export default function StackHeader({ navigation, route, options, back }) {
 	const { themeMode, setLight, setDark } = React.useContext(ThemeContext);
 	const screenButtons = {
 		AddPlace: [],
+		EditPlace: [],
 		AllPlaces: ["plus"],
 		PlaceDetail: [],
 		MapSelect: [],
