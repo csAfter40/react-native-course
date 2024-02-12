@@ -1,14 +1,17 @@
 import { ScrollView, View, Image, StyleSheet, Alert } from "react-native";
 import React from "react";
 import Page from "../components/Page";
-import { Button, Divider } from "react-native-paper";
+import { Button, Divider, Dialog, Portal, Text } from "react-native-paper";
 import DetailItem from "../components/DetailItem";
 import { useTheme } from "react-native-paper";
-import { getPlaceById } from "../utils/database";
+import { getPlaceById, deletePlace } from "../utils/database";
 import { SpinnerContext } from "../context/SpinnerProvider";
 
 export default function PlaceDetail({ navigation, route }) {
 	const { startSpinner, stopSpinner } = React.useContext(SpinnerContext);
+	const [visible, setVisible] = React.useState(false);
+	const showDialog = () => setVisible(true);
+	const hideDialog = () => setVisible(false);
 	const [place, setPlace] = React.useState(null);
 	const theme = useTheme();
 	const placeId = route.params.placeId;
@@ -33,7 +36,17 @@ export default function PlaceDetail({ navigation, route }) {
 		console.log("edit place");
 	}
 	function handleDeletePlace() {
-		console.log("delete place");
+		hideDialog();
+		startSpinner();
+		deletePlace(placeId)
+			.then((res) => {
+				navigation.replace("AllPlaces");
+			})
+			.catch((err) => {
+				console.log(err);
+				Alert.alert("Error deleting place.");
+			})
+			.finally(stopSpinner);
 	}
 	if (!place) {
 		return null;
@@ -60,10 +73,29 @@ export default function PlaceDetail({ navigation, route }) {
 						style={styles.button}
 						textColor={theme.colors.error}
 						icon={"trash-can-outline"}
-						onPress={handleDeletePlace}
+						onPress={showDialog}
 					>
 						Delete
 					</Button>
+					<Portal>
+						<Dialog visible={visible} onDismiss={hideDialog}>
+							<Dialog.Content>
+								<Text variant="bodyMedium">
+									Do you really want to delete this place from your
+									places list?
+								</Text>
+							</Dialog.Content>
+							<Dialog.Actions>
+								<Button onPress={hideDialog}>Cancel</Button>
+								<Button
+									textColor={theme.colors.error}
+									onPress={handleDeletePlace}
+								>
+									Delete
+								</Button>
+							</Dialog.Actions>
+						</Dialog>
+					</Portal>
 				</View>
 			</ScrollView>
 		</Page>
