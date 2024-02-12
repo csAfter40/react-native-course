@@ -1,11 +1,27 @@
-import { ScrollView, View, Image, StyleSheet, Alert } from "react-native";
+import {
+	ScrollView,
+	View,
+	Image,
+	StyleSheet,
+	Alert,
+	TouchableHighlight,
+} from "react-native";
 import React from "react";
 import Page from "../components/Page";
-import { Button, Divider, Dialog, Portal, Text } from "react-native-paper";
+import {
+	Button,
+	Divider,
+	Dialog,
+	Portal,
+	Text,
+	Surface,
+	TouchableRipple,
+} from "react-native-paper";
 import DetailItem from "../components/DetailItem";
 import { useTheme } from "react-native-paper";
 import { getPlaceById, deletePlace } from "../utils/database";
 import { SpinnerContext } from "../context/SpinnerProvider";
+import { getMapUri } from "../utils/googleApiHelpers";
 
 export default function PlaceDetail({ navigation, route }) {
 	const { startSpinner, stopSpinner } = React.useContext(SpinnerContext);
@@ -33,7 +49,7 @@ export default function PlaceDetail({ navigation, route }) {
 	}, [place]);
 
 	function handleEditPlace() {
-		console.log("edit place");
+		navigation.navigate("EditPlace", { place: place });
 	}
 	function handleDeletePlace() {
 		hideDialog();
@@ -48,6 +64,11 @@ export default function PlaceDetail({ navigation, route }) {
 			})
 			.finally(stopSpinner);
 	}
+	function handleMapSelect() {
+		navigation.navigate("MapSelect", {
+			initialLocation: { lat: place.latitude, lng: place.longitude },
+		});
+	}
 	if (!place) {
 		return null;
 	}
@@ -59,6 +80,32 @@ export default function PlaceDetail({ navigation, route }) {
 				<Divider />
 				<DetailItem title="Address" text={place.address} />
 				<Divider />
+				<DetailItem title="Location">
+					<Surface mode="elevated" elevation={1} style={styles.mapContainer}>
+						{place ? (
+							<TouchableHighlight
+								style={styles.map}
+								onPress={handleMapSelect}
+							>
+								<Image
+									style={styles.map}
+									source={{
+										uri: getMapUri({
+											lat: place.latitude,
+											lng: place.longitude,
+										}),
+									}}
+								/>
+							</TouchableHighlight>
+						) : (
+							<Icon
+								source="map-marker"
+								color={theme.colors.primary}
+								size={50}
+							/>
+						)}
+					</Surface>
+				</DetailItem>
 				<View style={styles.buttonContainer}>
 					<Button
 						onPress={handleEditPlace}
@@ -118,5 +165,16 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		flex: 1,
+	},
+	mapContainer: {
+		width: "95%",
+		height: 180,
+		justifyContent: "center",
+		alignItems: "center",
+		padding: 10,
+	},
+	map: {
+		width: "100%",
+		height: "100%",
 	},
 });
