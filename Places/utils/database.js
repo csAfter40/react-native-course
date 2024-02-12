@@ -87,3 +87,21 @@ export function getPlaceById(placeId) {
 	});
 	return promise;
 }
+
+export function deletePlace(placeId) {
+	const promise = new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"DELETE FROM place WHERE id = ?",
+				[placeId], // values
+				(_, response) => {
+					resolve(response);
+				}, // callback if successful
+				(_, error) => {
+					reject(error);
+				} //callback if error
+			);
+		});
+	});
+	return promise;
+}
