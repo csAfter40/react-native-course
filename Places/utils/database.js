@@ -40,7 +40,31 @@ export function insertPlace(place) {
 					place.longitude,
 				], // values
 				(_, result) => {
-					console.log(result);
+					resolve(result);
+				}, // callback if successful
+				(_, error) => {
+					reject(error);
+				} //callback if error
+			);
+		});
+	});
+	return promise;
+}
+
+export function editPlace(placeId, place) {
+	const promise = new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"UPDATE place SET title = ?, imageUri = ?, address = ?, latitude = ?, longitude = ? WHERE ID = ?",
+				[
+					place.title,
+					place.imageUri,
+					place.address,
+					place.latitude,
+					place.longitude,
+					placeId,
+				], // values
+				(_, result) => {
 					resolve(result);
 				}, // callback if successful
 				(_, error) => {
