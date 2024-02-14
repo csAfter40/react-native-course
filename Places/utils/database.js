@@ -9,10 +9,10 @@ export function initDb() {
 				`CREATE TABLE IF NOT EXISTS place (
                     id INTEGER PRIMARY KEY NOT NULL, 
                     title TEXT NOT NULL, 
-                    imageUri TEXT NOT NULL,
-                    address TEXT NOT NULL,
-                    latitude REAL NOT NULL,
-                    longitude REAL NOT NULL
+                    imageUri TEXT,
+                    address TEXT,
+                    latitude REAL,
+                    longitude REAL
                 )`,
 				[], // values
 				() => {
@@ -30,6 +30,8 @@ export function initDb() {
 export function insertPlace(place) {
 	const promise = new Promise((resolve, reject) => {
 		db.transaction((tx) => {
+			console.log(place);
+			console.log("tr called");
 			tx.executeSql(
 				"INSERT INTO place (title, imageUri, address, latitude, longitude) VALUES (?, ?, ?, ?, ?)",
 				[
@@ -40,9 +42,11 @@ export function insertPlace(place) {
 					place.longitude,
 				], // values
 				(_, result) => {
+					console.log(result);
 					resolve(result);
 				}, // callback if successful
 				(_, error) => {
+					console.log(error);
 					reject(error);
 				} //callback if error
 			);
