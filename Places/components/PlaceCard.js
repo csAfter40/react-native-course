@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import React from "react";
-import { List } from "react-native-paper";
+import { List, Icon } from "react-native-paper";
 import { useTheme } from "react-native-paper";
 
 export default function PlaceCard({ place, handleCardSelect }) {
@@ -16,8 +16,18 @@ export default function PlaceCard({ place, handleCardSelect }) {
 	return (
 		<List.Item
 			title={place.title}
-			description={place.address}
-			left={() => <List.Image source={{ uri: place.imageUri }} />}
+			description={place.address || "No address info available"}
+			left={() => (
+				<List.Image
+					source={
+						place.imageUri
+							? {
+									uri: place.imageUri,
+							  }
+							: require("../assets/images/defaultImage.jpg")
+					}
+				/>
+			)}
 			onPress={handleCardSelect}
 			style={styles.listItem}
 		/>

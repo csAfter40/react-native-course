@@ -80,37 +80,56 @@ export default function PlaceDetail({ navigation, route }) {
 	return (
 		<Page style={{ paddingBottom: 40, flex: 1 }}>
 			<ScrollView style={styles.mainContainer}>
-				<Image style={styles.image} source={{ uri: place.imageUri }} />
+				<Image
+					style={styles.image}
+					source={
+						place.imageUri
+							? { uri: place.imageUri }
+							: require("../assets/images/defaultImage.jpg")
+					}
+				/>
 				<DetailItem title="Title" text={place.title} />
 				<Divider />
-				<DetailItem title="Address" text={place.address} />
+				<DetailItem
+					title="Address"
+					text={place.address || "No address info available"}
+				/>
 				<Divider />
-				<DetailItem title="Location">
-					<Surface mode="elevated" elevation={1} style={styles.mapContainer}>
-						{place ? (
-							<TouchableHighlight
-								style={styles.map}
-								onPress={handleMapSelect}
-							>
-								<Image
+				{place.longitude && place.latitude ? (
+					<DetailItem title="Location">
+						<Surface
+							mode="elevated"
+							elevation={1}
+							style={styles.mapContainer}
+						>
+							{place ? (
+								<TouchableHighlight
 									style={styles.map}
-									source={{
-										uri: getMapUri({
-											lat: place.latitude,
-											lng: place.longitude,
-										}),
-									}}
+									onPress={handleMapSelect}
+								>
+									<Image
+										style={styles.map}
+										source={{
+											uri: getMapUri({
+												lat: place.latitude,
+												lng: place.longitude,
+											}),
+										}}
+									/>
+								</TouchableHighlight>
+							) : (
+								<Icon
+									source="map-marker"
+									color={theme.colors.primary}
+									size={50}
 								/>
-							</TouchableHighlight>
-						) : (
-							<Icon
-								source="map-marker"
-								color={theme.colors.primary}
-								size={50}
-							/>
-						)}
-					</Surface>
-				</DetailItem>
+							)}
+						</Surface>
+					</DetailItem>
+				) : (
+					<DetailItem title="Location" text="No location info available" />
+				)}
+				<Divider />
 				<View style={styles.buttonContainer}>
 					<Button
 						onPress={handleEditPlace}

@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { TextInput, Button, HelperText } from "react-native-paper";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -10,9 +10,10 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function PlaceForm({ place, onSubmit }) {
 	const [image, setImage] = React.useState(place?.imageUri || null);
-
 	const [location, setLocation] = React.useState(
-		place ? { lat: place.latitude, lng: place.longitude } : null
+		place?.latitude && place?.longitude
+			? { lat: place.latitude, lng: place.longitude }
+			: null
 	);
 	const { handleSubmit, control, formState, setValue } = useForm({
 		defaultValues: {
@@ -28,8 +29,8 @@ export default function PlaceForm({ place, onSubmit }) {
 			data.title,
 			image,
 			data.address,
-			location.lat,
-			location.lng
+			location?.lat,
+			location?.lng
 		);
 		if (place) {
 			await editPlace(place.id, newPlace);
