@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Meals",
-    "slug": "Meals",
+    "name": "Recipedia",
+    "slug": "recipedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "backgroundColor": "#24180f",
@@ -16,16 +16,24 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.csafter40.recipedia"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9c2be837-f5db-4e78-aec0-8cc5825ade4c"
+      }
     }
   }
 }
