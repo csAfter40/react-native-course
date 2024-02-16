@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Notify",
-    "slug": "Notify",
+    "slug": "notify",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -34,6 +34,12 @@
           "color": "#111111"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "83d2c581-3d1b-4b2a-8461-510d65d3831f"
+      }
+    },
+    "owner": "csafter40"
   }
 }
