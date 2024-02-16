@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Alert, Platform } from "react-native";
 import * as Notificatons from "expo-notifications";
 import React from "react";
+import Constants from "expo-constants";
 
 Notificatons.setNotificationHandler({
 	handleNotification: async () => ({
@@ -12,6 +13,7 @@ Notificatons.setNotificationHandler({
 });
 
 export default function App() {
+	const [pushToken, setPushToken] = React.useState(null);
 	function scheduleNotificationHandler() {
 		Notificatons.scheduleNotificationAsync({
 			content: {
@@ -41,6 +43,31 @@ export default function App() {
 			subscription1.remove();
 			subscription2.remove();
 		};
+	}, []);
+	React.useEffect(() => {
+		async function configurePushNotifications() {
+			const { status: existingStatus } = await Notificatons.getPermissionsAsync();
+			let finalStatus = existingStatus;
+			if (existingStatus !== "granted") {
+				const { status } = await Notificatons.requestPermissionsAsync();
+				finalStatus = status;
+			}
+			if (finalStatus !== "granted") {
+				Alert.alert("Failed to get push token for push notification!");
+				return false;
+			}
+			const pushTokenData = await Notificatons.getExpoPushTokenAsync({
+				projectId: Constants.expoConfig.extra.eas.projectId,
+			});
+			setPushToken(pushTokenData.data);
+			if (Platform.OS === "android") {
+				Notificatons.setNotificationChannelAsync("default", {
+					name: "default",
+					importance: Notificatons.AndroidImportance.HIGH,
+				});
+			}
+		}
+		configurePushNotifications();
 	}, []);
 	return (
 		<View style={styles.container}>
