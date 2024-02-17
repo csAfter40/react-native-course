@@ -26,6 +26,19 @@ export default function App() {
 			},
 		});
 	}
+	function schedulePushNotificationHandler() {
+		fetch("https://exp.host/--/api/v2/push/send", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				to: pushToken,
+				title: "hello",
+				body: "world",
+			}),
+		});
+	}
 	React.useEffect(() => {
 		const subscription1 = Notificatons.addNotificationReceivedListener(
 			(notification) => {
@@ -72,16 +85,23 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			<Button onPress={scheduleNotificationHandler} title="Schedule Notification" />
+			{pushToken && (
+				<Button
+					onPress={schedulePushNotificationHandler}
+					title="Schedule Push Notification"
+				/>
+			)}
 			<StatusBar style="auto" />
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		gap: 10,
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });
