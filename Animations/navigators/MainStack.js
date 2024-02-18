@@ -4,6 +4,7 @@ import AnimationsList from "../screens/AnimationsList";
 import MoveBall from "../screens/MoveBall";
 import FadeBall from "../screens/FadeBall";
 import ParallelSquare from "../screens/ParallelSquare";
+import EaseSquare from "../screens/EaseSquare";
 
 export default function MainStack() {
 	const Stack = createNativeStackNavigator();
@@ -35,6 +36,11 @@ export default function MainStack() {
 				name="ParallelSquare"
 				component={ParallelSquare}
 				options={{ headerTitle: "Parallel Animations Square" }}
+			/>
+			<Stack.Screen
+				name="EaseSquare"
+				component={EaseSquare}
+				options={{ headerTitle: "Easing Square" }}
 			/>
 		</Stack.Navigator>
 	);
