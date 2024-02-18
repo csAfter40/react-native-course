@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AnimationsList from "../screens/AnimationsList";
 import MoveBall from "../screens/MoveBall";
 import FadeBall from "../screens/FadeBall";
+import ParallelSquare from "../screens/ParallelSquare";
 
 export default function MainStack() {
 	const Stack = createNativeStackNavigator();
@@ -29,6 +30,11 @@ export default function MainStack() {
 				name="FadeBall"
 				component={FadeBall}
 				options={{ headerTitle: "Fade the Ball" }}
+			/>
+			<Stack.Screen
+				name="ParallelSquare"
+				component={ParallelSquare}
+				options={{ headerTitle: "Parallel Animations Square" }}
 			/>
 		</Stack.Navigator>
 	);
